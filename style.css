@@ -1,0 +1,575 @@
+/* RESET */
+:root {
+   --soft-rose: rgba(230, 180, 190, 0.25);
+   --soft-rose-solid: #e6b4be;
+   --sage: rgba(180, 200, 185, 0.25);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* GLOBAL */
+body {
+    font-family: "Georgia", serif;
+    background: #f6f2f1;
+    color: #111;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* PAGE WIDTH */
+.page-width {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* ================= HEADER ================= */
+
+.site-header {
+    text-align: center;
+    padding: 60px 20px 0;
+}
+
+.logo {
+    font-size: 48px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.tagline {
+    font-size: 15px;
+    opacity: 0.7;
+    margin-bottom: 40px;
+}
+
+/* NAV */
+.nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid #222;
+    border-bottom: 1px solid #222; /* WICHTIG */
+    margin-top: 2rem;
+
+    position: relative;
+    z-index: 2; /* liegt ÜBER dem Hero */
+}
+
+.nav a {
+    text-align: center;
+    padding: 0.9rem 0;
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #111;
+    border-right: 1px solid #222;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav a:last-child {
+    border-right: none;
+}
+
+/* subtiler Hover */
+.nav a:hover {
+    background: rgba(230, 180, 190, 0.35);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    margin-top: 0; /* KEIN Abstand zum Nav */
+}
+
+.hero-image {
+    width: 100%;
+    display: block;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+}
+
+/* ================= CURRENT TOPICS ================= */
+
+.topics {
+     background: var(--soft-rose);
+        padding: 140px 20px 120px;
+        margin-top: 120px;
+        border-radius: 80px;
+}
+
+.topics-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 70px;
+}
+
+.topics-header h2 {
+    font-size: 16px;
+    letter-spacing: 3px;
+    font-weight: 400;
+}
+
+.topics-header em {
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.topics-header .line {
+    width: 70px;
+    height: 1px;
+    background: #222;
+}
+
+/* TOPICS GRID */
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    margin-bottom: 60px;
+}
+
+/* TOPIC CARD */
+.topic-card {
+    text-align: center;
+    transition: transform 0.25s ease;
+}
+
+.topic-card img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.topic-card p {
+    margin-top: 16px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* HOVER TOPICS */
+.topic-card:hover img {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 60px rgba(0,0,0,0.18);
+}
+
+/* UNTERE LINIE */
+.topics-divider {
+    height: 1px;
+    width: 100%;
+    background: #222;
+    margin-top: 80px;
+}
+
+/* ================= CURRENT FAVOURITES ================= */
+
+.favorites {
+  background: #f6f2f1; /* bewusst beige */
+  padding: 140px 20px 120px;
+}
+
+.favorites-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.favorites-header h2 {
+  font-size: 16px;
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+.favorites-header em {
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.favorites-header .line {
+  width: 70px;
+  height: 1px;
+  background: var(--soft-rose-solid);
+}
+
+/* GRID */
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+}
+
+/* CARD */
+
+.favorite-card {
+  position: relative;
+  background: rgba(255,255,255,0.85);
+  border-radius: 22px;
+  padding: 40px 28px;
+  text-align: center;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease;
+}
+
+.favorite-card:hover {
+  transform: translateY(-4px);
+}
+
+
+.favorite-card .icon {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.favorite-card h3 {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.favorite-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.favorite-card em {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.favorite-image {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+
+  width: 180px;
+  aspect-ratio: 4 / 5;   /* 👈 KEY CHANGE */
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+
+}
+
+.favorite-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* ✨ DAS ist der Gamechanger */
+  object-position: center;
+
+  box-shadow: 0 14px 35px rgba(0,0,0,0.18);
+}
+
+
+.favorite-card:hover .favorite-image {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.favorite-content {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.favorite-card:hover .favorite-content {
+  opacity: 0;
+  transform: translateY(6px);
+ }
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= Glitter ================= */
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(230, 180, 190, 0.45); /* soft rose, sehr fein */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+
+  filter: blur(0.3px);
+
+  animation: sparkleFade 0.6s ease-out forwards;
+}
+
+@keyframes sparkleFade {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.2) translateY(10px);
+    opacity: 0;
+  }
+}
+
+/* ================= Social Media ================= */
+
+.social-links {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  display: flex;
+  gap: 18px;
+  z-index: 3;
+}
+
+.social-links svg {
+  width: 16px;
+  height: 16px;
+  stroke: #111;
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, stroke 0.2s ease;
+}
+
+.social-links a:hover svg {
+  opacity: 1;
+  stroke: var(--soft-rose-solid);
+}
+
+
+/*.diary-note {
+  padding: 50px 0px;
+  text-align: center;
+}
+
+.diary-note p {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  color: rgba(17, 17, 17, 0.55);
+  letter-spacing: 0.02em;
+}*/
+
+
+/* ================= LEARNING ================= */
+
+.page-width.narrow {
+  max-width: 900px;
+}
+
+/* ===== LEARNING HEADER UPDATE ===== */
+
+/* ================= LEARNING HEADER ================= */
+
+.learning-hero {
+  padding: 50px 20px 60px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 225, 230, 0.45),
+    rgba(246, 242, 241, 0)
+  );
+  border-radius: 0 0 100px 100px;
+}
+
+.learning-hero::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: rgba(230, 180, 190, 0.6);
+  margin: 80px auto 0;
+  border-radius: 2px;
+}
+
+.learning-title {
+  font-size: 56px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.learning-intro {
+  max-width: 520px;
+  margin: 0 auto 50px;
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* WORLDS */
+
+.learning-worlds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* BASE CHIP */
+
+.world-chip {
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover – playful but soft */
+.world-chip:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.14);
+}
+
+/* COLOR VARIANTS */
+
+.world-chip.books {
+  background: rgba(255, 235, 200, 0.9);
+}
+
+.world-chip.code {
+  background: rgba(220, 235, 255, 0.9);
+}
+
+.world-chip.riding {
+  background: rgba(230, 245, 235, 0.9);
+}
+
+.world-chip.skiing {
+  background: rgba(235, 240, 255, 0.9);
+}
+
+.world-chip.making {
+  background: rgba(255, 230, 240, 0.9);
+}
+
+.world-chip.life {
+  background: rgba(225, 240, 230, 0.9);
+}
+
+.learning-entry {
+  max-width: 520px;
+  margin-bottom: 60px;
+}
+
+.entry-meta {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+}
+
+
+
+/* ===== ABOUT ===== */
+.about-hero {
+  padding: 140px 20px 120px;
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-hero-text h1 {
+  font-size: 42px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.about-hero-text p {
+  font-size: 18px;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+.about-hero-image img {
+  width: 100%;
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+}
+
+.about-story {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.about-story-text {
+  font-size: 20px;
+  line-height: 1.8;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.about-worlds {
+  padding: 120px 20px;
+}
+
+.about-worlds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.world-card {
+  position: relative;
+}
+
+.world-card img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 26px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.world-card span {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  background: rgba(255,255,255,0.8);
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+}
+
+.about-why {
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.about-why p {
+  font-size: 18px;
+  opacity: 0.75;
+}
+
+
+
