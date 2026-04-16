@@ -5,24 +5,343 @@
     <title>Learning – PrettilyCurious</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* ── Note cards grid ── */
+        .notes-grid-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 26px;
+        }
+
+        /* ── Single note card ── */
+        .note-card {
+            background-color: #fefdf8;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 27px,
+                rgba(170, 195, 178, 0.18) 27px,
+                rgba(170, 195, 178, 0.18) 28px
+            );
+            border-radius: 4px 18px 18px 4px;
+            padding: 22px 28px 24px 54px;
+            position: relative;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08), 3px 3px 0 rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* margin line */
+        .note-card::before {
+            content: '';
+            position: absolute;
+            left: 42px;
+            top: 0;
+            bottom: 0;
+            width: 1.5px;
+            background: rgba(230,180,190,0.5);
+        }
+
+        .note-card:hover {
+            transform: rotate(0deg) translateY(-5px) !important;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+        }
+
+        /* rotations + tints */
+        .note-card:nth-child(1) { transform: rotate(-0.4deg); }
+        .note-card:nth-child(2) { transform: rotate(0.5deg);  background-color: #f8fbff; }
+        .note-card:nth-child(3) { transform: rotate(-0.3deg); background-color: #f8fff9; }
+        .note-card:nth-child(4) { transform: rotate(0.6deg);  background-color: #fdf8ff; }
+
+        /* featured (full width) */
+        .note-card.featured {
+            grid-column: 1 / -1;
+            transform: rotate(-0.3deg);
+            padding: 28px 40px 32px 64px;
+        }
+
+        .note-card.featured::before { left: 52px; }
+
+        .note-subject {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+            margin-bottom: 8px;
+            font-family: Georgia, serif;
+            text-transform: uppercase;
+        }
+
+        .note-card h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .note-card.featured h3 { font-size: 34px; }
+
+        .note-card p {
+            font-size: 13.5px;
+            line-height: 1.7;
+            opacity: 0.68;
+            margin-bottom: 16px;
+        }
+
+        .note-open {
+            font-size: 12px;
+            opacity: 0.35;
+            font-style: italic;
+            transition: opacity 0.2s;
+        }
+
+        .note-card:hover .note-open { opacity: 0.6; }
+
+        .note-card.hidden { display: none; }
+
+        /* chip active state */
+        .world-chip.active {
+            background: rgba(230,180,190,0.38) !important;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.07);
+        }
+
+        /* ── Modal overlay ── */
+        .note-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20,15,10,0.38);
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .note-modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ── Modal page ── */
+        .note-modal-page {
+            background-color: #fefdf8;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 27px,
+                rgba(170,195,178,0.18) 27px,
+                rgba(170,195,178,0.18) 28px
+            );
+            max-width: 600px;
+            width: 100%;
+            max-height: 82vh;
+            overflow-y: auto;
+            border-radius: 4px 22px 22px 4px;
+            padding: 44px 44px 52px 70px;
+            position: relative;
+            box-shadow: 0 28px 70px rgba(0,0,0,0.18);
+            transform: translateY(24px);
+            transition: transform 0.35s ease;
+        }
+
+        .note-modal-overlay.open .note-modal-page {
+            transform: translateY(0);
+        }
+
+        /* modal margin line */
+        .note-modal-page::before {
+            content: '';
+            position: absolute;
+            left: 58px;
+            top: 0;
+            bottom: 0;
+            width: 1.5px;
+            background: rgba(230,180,190,0.5);
+        }
+
+        .note-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            opacity: 0.35;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            transition: opacity 0.2s;
+            line-height: 1;
+        }
+
+        .note-close:hover { opacity: 0.75; }
+
+        .modal-subject {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            opacity: 0.45;
+            margin-bottom: 10px;
+            font-family: Georgia, serif;
+            text-transform: uppercase;
+        }
+
+        .note-modal-page h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 28px;
+            color: #1a1a1a;
+        }
+
+        .note-body {
+            font-size: 14px;
+            line-height: 1.95;
+            opacity: 0.78;
+        }
+
+        .note-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+        }
+
+        .note-body ul li {
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .note-body ul li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            opacity: 0.4;
+        }
+
+        .note-reflection {
+            margin-top: 24px;
+            padding: 14px 18px;
+            background: rgba(230,180,190,0.12);
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.65;
+            opacity: 0.8;
+        }
+
+        .note-footer-meta {
+            display: block;
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.32;
+            font-style: italic;
+        }
+
+        /* ── Page flip button ── */
+        .modal-flip-btn {
+            display: block;
+            margin: 18px 0 0 auto;
+            background: none;
+            border: none;
+            font-family: 'Caveat', cursive;
+            font-size: 17px;
+            color: #1a1a1a;
+            opacity: 0.36;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            padding: 4px 0;
+        }
+        .modal-flip-btn:hover { opacity: 0.72; }
+
+        /* full-text paragraph spacing */
+        .note-body p + p { margin-top: 14px; }
+
+        /* section hint */
+        .section-hint {
+            text-align: center;
+            font-family: 'Caveat', cursive;
+            font-size: 16px;
+            opacity: 0.32;
+            font-style: italic;
+            padding: 0 20px 28px;
+            display: none;
+        }
+
+        /* ── PDF download button ── */
+        .modal-download-btn {
+            display: block;
+            margin: 28px auto 0;
+            background: none;
+            border: 1.5px dashed rgba(0,0,0,0.15);
+            border-radius: 999px;
+            padding: 9px 22px;
+            font-family: 'Caveat', cursive;
+            font-size: 17px;
+            color: #1a1a1a;
+            opacity: 0.45;
+            cursor: pointer;
+            transition: opacity 0.2s ease, border-color 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+        .modal-download-btn:hover { opacity: 0.85; border-color: rgba(0,0,0,0.28); }
+
+        /* ── Recipe photo in modal ── */
+        .modal-photo-wrap {
+            position: relative;
+            display: inline-block;
+            transform: rotate(-1.5deg);
+            margin-bottom: 24px;
+        }
+        .modal-photo-wrap img {
+            display: block;
+            max-height: 180px;
+            max-width: 100%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+        }
+        .m-tape {
+            position: absolute;
+            height: 16px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .m-tape-t { width: 60px; background: rgba(255,238,170,0.72); top: -6px; left: 50%; transform: translateX(-50%) rotate(-2deg); }
+        .m-tape-b { width: 50px; background: rgba(215,240,255,0.7); bottom: -6px; right: 14px; transform: rotate(3deg); }
+
+        /* ── Recipe chip tint ── */
+        .world-chip.recipes { background: rgba(255, 240, 200, 0.9); }
+
+        /* ── nth-child rotations extended ── */
+        .note-card:nth-child(5) { transform: rotate(-0.5deg); background-color: #fffbf0; }
+        .note-card:nth-child(6) { transform: rotate(0.4deg);  background-color: #fff9ee; }
+
+    </style>
 </head>
 
 <body>
 
-<!-- HEADER (gleich wie Home) -->
 <header class="site-header">
     <div class="social-links">
         <a href="https://instagram.com/prettilycurious" target="_blank" aria-label="Instagram">
-            <!-- Instagram Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <circle cx="12" cy="12" r="4"></circle>
                 <circle cx="17.5" cy="6.5" r="1"></circle>
             </svg>
         </a>
-
         <a href="https://pinterest.com/prettilycurious" target="_blank" aria-label="Pinterest">
-            <!-- Pinterest Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2C6.9 2 3 5.4 3 9.9c0 3.3 1.9 5.2 3.1 5.2.5 0 .8-1.4.8-1.8
       0-.5-1.3-1.6-1.3-3.7 0-4.3 3.3-7.4 7.7-7.4
@@ -41,80 +360,480 @@
         </a>
     </div>
     <div class="page-width">
-
         <h1 class="logo">PrettilyCurious</h1>
         <p class="tagline">learning, living & growing — softly.</p>
-
         <nav class="nav">
             <a href="index.html">HOME</a>
-            <a href="learning.html">LEARNING</a>
             <a href="lifestyle.html">LIFESTYLE</a>
+            <a href="learning.html">LEARNING</a>
             <a href="about.html">ABOUT</a>
-            <a href="dashboard.html">SHOP</a>
+            <a href="dashboard.html">FREEBIES</a>
         </nav>
-
     </div>
 </header>
 
-<!-- LEARNING -->
+<!-- HERO -->
 <section class="learning">
     <div class="page-width narrow">
-
-        <!-- Intro -->
         <section class="learning-hero">
             <div class="page-width">
-
                 <h1 class="learning-title">Learning</h1>
                 <p class="learning-intro">
                     Things that made me curious lately — books, skills, moments & small life lessons.
                 </p>
-
-                <div class="learning-worlds">
-                    <a href="#" class="world-chip books">📚 Books</a>
-                    <a href="#" class="world-chip code">💻 IT & Code</a>
-                    <a href="#" class="world-chip riding">🐎 Horse Riding</a>
-                    <a href="#" class="world-chip skiing">🎿 Skiing</a>
-                    <a href="#" class="world-chip making">🧶 Making Things</a>
-                    <a href="#" class="world-chip life">🌱 Life Lessons</a>
-
+                <div class="learning-worlds" id="chips">
+                    <a href="#" class="world-chip active" data-filter="all">✨ All</a>
+                    <a href="#" class="world-chip books" data-filter="books">📚 Books</a>
+                    <a href="#" class="world-chip code" data-filter="code">💻 IT & Code</a>
+                    <a href="#" class="world-chip riding" data-filter="riding" style="display:none">🐎 Horse Riding</a>
+                    <a href="#" class="world-chip skiing" data-filter="skiing">🎿 Skiing</a>
+                    <a href="#" class="world-chip making" data-filter="making">🧶 Making Things</a>
+                    <a href="#" class="world-chip life" data-filter="life">🌱 Life Lessons</a>
+                    <a href="#" class="world-chip recipes" data-filter="recipes">🍳 Recipes</a>
                 </div>
-
             </div>
         </section>
-
-
-        <!-- Entries -->
-        <div class="learning-list">
-
-            <article class="learning-entry">
-                <span class="entry-meta">In progress · March 2025</span>
-                <h3>Horse Riding 101: finding balance</h3>
-                <p>Learning how balance isn’t about control, but about trust — in the horse and in myself.</p>
-            </article>
-
-
-            <article class="learning-entry">
-                <span class="entry-meta">From books</span>
-                <h3>Thoughts after “Der Besuch der alten Dame”</h3>
-                <p>
-                    A tragicomedy about guilt, morality and how easily values
-                    bend when money enters the room.
-                </p>
-            </article>
-
-            <article class="learning-entry">
-                <span class="entry-meta">Explained simply</span>
-                <h3>HTML & CSS — what finally made it click</h3>
-                <p>
-                    The moment I stopped memorising rules and started thinking
-                    in structure.
-                </p>
-            </article>
-
-        </div>
-
     </div>
 </section>
 
+<!-- SECTION HINT -->
+<p class="section-hint" id="sectionHint">jede karte zeigt stichwörter & zusammenfassung — ganzer text auf der nächsten seite →</p>
+
+<!-- NOTE CARDS -->
+<div class="notes-grid-wrapper">
+    <div class="notes-grid" id="entries">
+
+        <article class="note-card featured" data-category="riding" data-note="riding1" style="display:none">
+            <span class="note-subject">🐎 Horse Riding</span>
+            <h3>Finding balance — it's not about control</h3>
+            <p>Learning how balance isn't about control, but about trust — in the horse and in myself.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card featured" data-category="books" data-note="books2">
+            <span class="note-subject">📚 Books</span>
+            <h3>Der Club der toten Dichter</h3>
+            <p>Ein Buch, das man am Strand liest und im Kopf behält. Gebraucht gekauft, unerwartet bewegt.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="books" data-note="elternabend1">
+            <span class="note-subject">📚 Books</span>
+            <h3>Der Elternabend</h3>
+            <p>Sebastian Fitzek — kein Thriller, aber irgendwie doch. Witzig, unvorhersehbar, und viel zu schnell ausgelesen.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="books" data-note="paket1">
+            <span class="note-subject">📚 Books</span>
+            <h3>Das Paket</h3>
+            <p>Sebastian Fitzek. Ein Thriller, der einen nicht loslässt — und Fragen hinterlässt, die über das Buch hinausgehen.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="books" data-note="books1">
+            <span class="note-subject">📚 Books</span>
+            <h3>"Der Besuch der alten Dame"</h3>
+            <p>A tragicomedy about guilt, morality and how easily values bend when money enters the room.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="code" data-note="code1">
+            <span class="note-subject">💻 IT & Code</span>
+            <h3>What finally made HTML & CSS click</h3>
+            <p>The moment I stopped memorising rules and started thinking in structure.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="life" data-note="life1">
+            <span class="note-subject">🌱 Life Lessons</span>
+            <h3>On doing things imperfectly</h3>
+            <p>Starting is more important than being ready. I keep re-learning this.</p>
+            <span class="note-open">Notiz öffnen ↗</span>
+        </article>
+
+        <article class="note-card featured" data-category="recipes" data-note="recipe1">
+            <span class="note-subject">🍳 Recipes</span>
+            <h3>Ingwer-Linsensuppe — der Klassiker</h3>
+            <p>Die Suppe, die ich immer koche wenn es draußen kalt wird. Einfach, warm, irgendwie immer richtig.</p>
+            <span class="note-open">Rezept öffnen ↗</span>
+        </article>
+
+        <article class="note-card" data-category="recipes" data-note="recipe2">
+            <span class="note-subject">🍳 Recipes</span>
+            <h3>Banana Oat Pancakes</h3>
+            <p>Drei Zutaten, zehn Minuten. Mein liebstes lazy Sunday breakfast.</p>
+            <span class="note-open">Rezept öffnen ↗</span>
+        </article>
+
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="note-modal-overlay" id="noteOverlay">
+    <div class="note-modal-page" id="noteModalPage">
+        <button class="note-close" id="noteClose">×</button>
+        <span class="modal-subject" id="modalSubject"></span>
+        <div id="modalPhotoWrap" style="display:none">
+            <div class="modal-photo-wrap">
+                <img id="modalPhoto" src="" alt="">
+                <span class="m-tape m-tape-t"></span>
+                <span class="m-tape m-tape-b"></span>
+            </div>
+        </div>
+        <h2 id="modalTitle"></h2>
+        <div class="note-body" id="modalBody"></div>
+        <span class="note-footer-meta" id="modalMeta"></span>
+        <button class="modal-download-btn" id="modalDownloadBtn" style="display:none">📥 als PDF speichern</button>
+        <button class="modal-flip-btn" id="modalFlipBtn" style="display:none">ganzer Text →</button>
+    </div>
+</div>
+
+<script>
+    const noteData = {
+        riding1: {
+            subject: '🐎 Horse Riding',
+            title: 'Finding balance — it\'s not about control',
+            meta: 'March 2025 · still in progress 🌿',
+            body: `
+                <ul>
+                    <li>Every lesson starts with my own breathing, not the horse's</li>
+                    <li>Balance means adjusting constantly — not staying perfectly still</li>
+                    <li>You can't control a horse. You can only communicate with one.</li>
+                    <li>The horse feels your tension before you've noticed it yourself</li>
+                    <li>Sitting tall doesn't mean stiff — it means present</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>All of this is probably just life advice in disguise.</em></p>
+            `
+        },
+        books2: {
+            subject: '📚 Books',
+            title: 'Der Club der toten Dichter',
+            meta: 'N.H. Kleinbaum · September 2025, Caorle',
+            photo: 'assets/images/Club der toten Dichter.png',
+            downloadable: true,
+            body: `
+                <p style="font-size:14px;line-height:1.85;opacity:0.78;margin-bottom:18px;">Manche Bücher trifft man zufällig. Dieses habe ich gebraucht bei rebuy gekauft — ohne große Erwartungen, mit einem leicht vergilbten Cover. Gelesen habe ich es dann im September 2025 am Strand in Caorle, und es war eines der besten Bücher des ganzen Jahres.</p>
+                <ul>
+                    <li>Basiert auf dem Film von 1989 mit Robin Williams — nicht umgekehrt. Merkt man kaum.</li>
+                    <li>Todd Anderson, Welton-Internat, 1950er Amerika — traditionell, streng, eng</li>
+                    <li>John Keating bricht alles auf: Dichtung, Augenblick, Carpe Diem</li>
+                    <li>Der geheime Club — trifft sich in einer Höhle, liest sich gegenseitig Gedichte vor</li>
+                    <li>Disziplin vs. Freiheit, für sich einstehen — die Konsequenzen tragen meist die Falschen</li>
+                    <li>Kaum 160 Seiten, in wenigen Stunden gelesen — Nachhall erstaunlich groß</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>Wie viel Konformität akzeptiert man selbst, ohne es zu merken? Wofür steht man auf, wenn es darauf ankommt? Am besten liest man es entspannt — mit Sand zwischen den Zehen.</em></p>
+            `,
+            fullText: `
+                <p>Manche Bücher trifft man zufällig. Dieses habe ich gebraucht bei rebuy gekauft — ohne große Erwartungen, mit einem leicht vergilbten Cover und dem vagen Gedanken, es irgendwann mal zu lesen. Gelesen habe ich es dann im September 2025 am Strand in Caorle, und es war eines der besten Bücher des ganzen Jahres.</p>
+                <p>Was mich von Anfang an überrascht hat: Das Buch basiert auf dem Film — und nicht umgekehrt, wie man es normalerweise gewohnt ist. N.H. Kleinbaum hat den Stoff des legendären 1989er-Films mit Robin Williams nachträglich in Buchform gebracht. Eigentlich ein Konzept, bei dem man skeptisch sein darf. Aber ehrlich gesagt merkt man es kaum.</p>
+                <p>Die Geschichte folgt Todd Anderson und seinen Mitschülern am Welton-Internat, einer traditionellen, strengen Elite-Schule irgendwo in den amerikanischen Suburbs der 1950er. Alles ändert sich, als der neue Englischlehrer John Keating auftaucht — einer, der seine Schüler dazu auffordert, aus ihrem Leben etwas Besonderes zu machen, der den Augenblick feiert und ihnen die Welt der Dichtung erschließt. Unter seinem Einfluss lassen die Jungs den geheimen „Club der toten Dichter" wiederaufleben — ein Geheimbund, der sich in einer Höhle trifft, um sich gegenseitig Gedichte vorzulesen.</p>
+                <p>Der Balanceakt zwischen Disziplin und Freiheit, die Art, für sich selbst einzustehen, und die Konsequenzen, die am Ende getragen werden müssen — und das meist von den Falschen — verleihen diesem Buch mehr als nur eine Message.</p>
+                <p>Das Buch ist kurz — kaum 160 Seiten, die man in wenigen Stunden verschlingt. Und dennoch ist der Nachhall erstaunlich groß. Am Ende hinterfragt man einiges: Wie viel Konformität akzeptiert man selbst, ohne es zu merken? Was wäre, wenn man öfter einfach für sich einstünde? Wofür steht man auf, wenn es darauf ankommt?</p>
+                <p>Ich glaube, das Buch trifft einen gerade dann besonders, wenn man es entspannt liest — ohne Druck, ohne Ablenkung, vielleicht mit Sand zwischen den Zehen. Dann lässt man sich auf diese Welt ein, und direkt von Seite eins an zieht sie einen in ihren Bann.</p>
+                <p>Absolut empfehlenswert — und wer das Buch noch nicht kennt, kann es ruhig gebraucht kaufen. Manchmal sind das die besten Funde.</p>
+                <p class="note-reflection">✏️ <em>Wie viel Konformität akzeptiert man selbst, ohne es zu merken? Wofür steht man auf, wenn es darauf ankommt?</em></p>
+            `
+        },
+        elternabend1: {
+            subject: '📚 Books',
+            title: 'Der Elternabend',
+            meta: 'Sebastian Fitzek · kein Thriller (auch wenn es nach Horror klingt)',
+            photo: 'assets/images/elternabend-taschenbuch-sebastian-fitzek.jpeg',
+            downloadable: true,
+            body: `
+                <p style="font-size:14px;line-height:1.85;opacity:0.78;margin-bottom:18px;">Eine Freundin und ich wollten dieses Buch eigentlich zusammen lesen. Am Ende habe ich es alleine gelesen — sie weiß, was sie verpasst hat.</p>
+                <ul>
+                    <li>Kein Thriller — Fitzek selbst schreibt es aufs Cover</li>
+                    <li>Sascha, Kleinkrimineller, will ein Auto stehlen — landet stattdessen auf einem Elternabend-Wochenende</li>
+                    <li>Mit einer fremden Frau, als Eltern eines Kindes, das sie nicht kennen</li>
+                    <li>Wirklich witzig — kleine Twists, man liest fast automatisch weiter</li>
+                    <li>Die Twists sind nicht vorhersehbar — anders als beim Paket</li>
+                    <li>Eine Szene: er manipuliert ganz beiläufig die Playlist. Klein, unscheinbar, genau richtig.</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>Wer einen klassischen Fitzek erwartet, wird überrascht sein. Aber im Guten.</em></p>
+            `,
+            fullText: `
+                <p>Eine Freundin und ich wollten dieses Buch eigentlich zusammen lesen. Am Ende habe ich es alleine gelesen — sie weiß, was sie verpasst hat.</p>
+                <p>Fitzek schreibt normalerweise Thriller, und das merkt man ihm auch sonst an. Beim Elternabend nicht. Auf dem Cover steht sogar: „Kein Thriller (auch wenn es nach Horror klingt)" — und das ist wörtlich gemeint. Die Geschichte dreht sich um Sascha, einen Kleinkriminellen, der eigentlich nur schnell ein Auto stehlen will. Dann taucht eine Frau mit einem Baseballschläger auf, die genau dieses Auto demolieren will, die Polizei erscheint, und die beiden landen irgendwie auf einem Elternabend-Wochenende — als Eltern eines Kindes, das sie nicht kennen, bei Leuten, die sie nicht kennen, in einer Situation, die komplett außer Kontrolle gerät.</p>
+                <p>Das Buch ist witzig. Wirklich witzig. Es gibt ständig kleine Twists, Momente wo man kurz lacht und dann gleich weiterliest. Manche Anspielungen habe ich wahrscheinlich nicht mal alle verstanden — macht nichts, hat trotzdem Spaß gemacht. Eine Szene hat mich besonders erwischt: wie der Protagonist ganz beiläufig die Playlist beim Elternabend manipuliert. Klein, unscheinbar, aber irgendwie genau das Richtige.</p>
+                <p>Was mich am meisten überrascht hat: Man kann die Twists nicht vorhersehen. Anders als beim Paket hatte ich hier wirklich keine Ahnung, was als nächstes kommt — und das ist bei Fitzek, glaube ich, nicht selbstverständlich.</p>
+                <p>Wer einen klassischen Fitzek erwartet, wird überrascht sein. Aber im Guten.</p>
+                <p class="note-reflection">✏️ <em>Wer einen klassischen Fitzek erwartet, wird überrascht sein. Aber im Guten.</em></p>
+            `
+        },
+        paket1: {
+            subject: '📚 Books',
+            title: 'Das Paket',
+            meta: 'Sebastian Fitzek · auf Empfehlung von Magdalena',
+            photo: 'assets/images/das-paket-taschenbuch-sebastian-fitzek.jpeg',
+            downloadable: true,
+            body: `
+                <p style="font-size:14px;line-height:1.85;opacity:0.78;margin-bottom:18px;">Auf Empfehlung meiner Freundin Magdalena — für sie eines ihrer liebsten Bücher. Mit solchen Erwartungen bin ich reingegangen. Sie hatte recht.</p>
+                <ul>
+                    <li>Emma, Psychiaterin, überlebt als Einzige den Serientäter „Der Friseur"</li>
+                    <li>Tiefes Trauma: verlässt kaum das Haus, traut niemandem mehr</li>
+                    <li>Auslöser: sie nimmt ein Paket für einen unbekannten Nachbarn an</li>
+                    <li>Kurze Kapitel, ständige Cliffhanger — man liest fast automatisch weiter</li>
+                    <li>Emmas Paranoia ist nachvollziehbar, man leidet wirklich mit</li>
+                    <li>Ehrlich: man ahnt manchmal, wohin es geht</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>Wem würde ich in ihrer Situation noch vertrauen? — Wenn das Fitzeks Mittelmäßigkeit ist, lese ich sehr gerne weiter.</em></p>
+            `,
+            fullText: `
+                <p>Dieses Buch habe ich auf Empfehlung meiner Freundin Magdalena gelesen — für sie ist es eines ihrer liebsten Bücher. Mit solchen Erwartungen bin ich also reingegangen. Und sie hatte recht.</p>
+                <p>Im Mittelpunkt steht Emma, eine junge Psychiaterin, die als einzige einen Serientäter namens „Der Friseur" überlebt — einem Mann, der seine Opfer vergewaltigt und ihnen die Haare schert. Das Trauma sitzt tief: Emma verlässt das Haus kaum noch, entwickelt Angststörungen, traut niemandem mehr. Und dann nimmt sie eines Tages ein Paket für einen Nachbarn an, den sie nicht kennt. Ab da nimmt die Geschichte richtig Fahrt auf.</p>
+                <p>Der Plot ist fesselnd. Fitzek arbeitet mit kurzen Kapiteln und ständigen Cliffhangern — man liest fast automatisch weiter, weil man einfach wissen will, wie es ausgeht. Der Schreibstil ist unkompliziert, man kommt sofort rein, und Emmas Geschichte weckt echtes Mitgefühl. Man versteht ihre Paranoia, leidet mit ihr und fragt sich selbst irgendwann: Wem würde ich in ihrer Situation noch vertrauen?</p>
+                <p>Zur Ehrlichkeit gehört aber auch: Manchmal ahnt man als Leserin, wohin sich die Geschichte entwickelt. Und beim Umgang mit dem Vergewaltigungsthema hatte ich vereinzelt das Gefühl, dass hier ein männlicher Blick spürbar ist — ob das objektiv so ist oder Einbildung, lasse ich offen. Es ist mir einfach aufgefallen.</p>
+                <p>Manche meinen übrigens, „Das Paket" sei nicht Fitzeks stärkstes Werk. Ich kann das nicht beurteilen, weil es mein erster Fitzek war. Aber wenn das seine Mittelmäßigkeit ist, lese ich sehr gerne weiter.</p>
+                <p class="note-reflection">✏️ <em>Wem würde ich in ihrer Situation noch vertrauen?</em></p>
+            `
+        },
+        books1: {
+            subject: '📚 Books',
+            title: '"Der Besuch der alten Dame"',
+            meta: 'Friedrich Dürrenmatt, 1956',
+            body: `
+                <ul>
+                    <li>Tragicomedy — the comedy makes the tragedy hit harder</li>
+                    <li>Claire returns with a billion-franc offer: justice, her way</li>
+                    <li>The town slowly convinces itself that it's <em>just</em></li>
+                    <li>Nobody makes a single dramatic choice — they just... drift</li>
+                    <li>Dürrenmatt says: guilt is collective, not individual</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>"The scariest thing isn't Claire. It's how easily everyone gives in — including the reader."</em></p>
+            `
+        },
+        code1: {
+            subject: '💻 IT & Code',
+            title: 'What finally made HTML & CSS click',
+            meta: 'while building this site',
+            body: `
+                <ul>
+                    <li>HTML = structure. CSS = how it looks. They're separate on purpose.</li>
+                    <li>Everything is a box. Once I saw the boxes, I couldn't unsee them.</li>
+                    <li>Flexbox = one direction at a time. Grid = two directions at once.</li>
+                    <li>CSS isn't just styling — it's spatial thinking</li>
+                    <li>Breaking things and fixing them > reading about things and not touching them</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>The moment it clicked: when I inspected someone else's site and understood what I was looking at.</em></p>
+            `
+        },
+        life1: {
+            subject: '🌱 Life Lessons',
+            title: 'On doing things imperfectly',
+            meta: 'April 2025',
+            body: `
+                <ul>
+                    <li>The perfect moment to start doesn't exist — it's always slightly inconvenient</li>
+                    <li>A bad first draft > no draft. Every time.</li>
+                    <li>Imperfect things have texture. Perfect things feel cold.</li>
+                    <li>You learn more from finishing something messy than planning something perfect</li>
+                    <li>"Good enough to ship" is often actually good enough</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>I keep having to re-learn this. Maybe that's the point.</em></p>
+            `
+        },
+        recipe1: {
+            downloadable: true,
+            subject: '🍳 Recipes',
+            title: 'Ingwer-Linsensuppe',
+            meta: 'Lieblingsrezept · Herbst & Winter',
+            photo: 'assets/images/Indigo_Suppe.png',
+            body: `
+                <p style="font-size:12px;opacity:0.45;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Zutaten · für 2</p>
+                <ul>
+                    <li>200g rote Linsen</li>
+                    <li>1 Dose Kokosmilch</li>
+                    <li>1 Zwiebel, 2 Knoblauchzehen</li>
+                    <li>frischer Ingwer (großzügig)</li>
+                    <li>Gemüsebrühe, Kurkuma, Kreuzkümmel</li>
+                    <li>Limette zum Abschmecken</li>
+                </ul>
+                <p style="font-size:12px;opacity:0.45;letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">Zubereitung</p>
+                <ul>
+                    <li>Zwiebel & Knoblauch in Öl anschwitzen</li>
+                    <li>Gewürze kurz mitrösten bis es duftet</li>
+                    <li>Linsen + Brühe + Kokosmilch dazu, 20 min köcheln</li>
+                    <li>Pürieren, mit Limette abschmecken</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>Mehr Ingwer als man denkt. Immer mehr Ingwer.</em></p>
+            `
+        },
+        recipe2: {
+            downloadable: true,
+            subject: '🍳 Recipes',
+            title: 'Banana Oat Pancakes',
+            meta: 'lazy sunday · 10 min',
+            body: `
+                <p style="font-size:12px;opacity:0.45;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Zutaten · für 1</p>
+                <ul>
+                    <li>1 reife Banane</li>
+                    <li>1 Ei</li>
+                    <li>4 EL Haferflocken</li>
+                    <li>Prise Zimt (optional aber empfohlen)</li>
+                </ul>
+                <p style="font-size:12px;opacity:0.45;letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">Zubereitung</p>
+                <ul>
+                    <li>Alles zusammen zerdrücken & vermischen</li>
+                    <li>Kleine Portionen in die Pfanne, mittlere Hitze</li>
+                    <li>Ca. 2 min pro Seite</li>
+                    <li>Mit Beeren oder Honig servieren</li>
+                </ul>
+                <p class="note-reflection">✏️ <em>Je reifer die Banane, desto besser. Schwarze Flecken = perfekt.</em></p>
+            `
+        }
+    };
+
+    // Filter chips
+    const chips = document.querySelectorAll('#chips .world-chip');
+    const entries = document.querySelectorAll('#entries .note-card');
+
+    const sectionHint = document.getElementById('sectionHint');
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', e => {
+            e.preventDefault();
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const filter = chip.dataset.filter;
+            entries.forEach(entry => {
+                if (filter === 'all' || entry.dataset.category === filter) {
+                    entry.classList.remove('hidden');
+                } else {
+                    entry.classList.add('hidden');
+                }
+            });
+            sectionHint.style.display = filter === 'books' ? 'block' : 'none';
+        });
+    });
+
+    // Modal
+    const overlay  = document.getElementById('noteOverlay');
+    const closeBtn = document.getElementById('noteClose');
+    const flipBtn  = document.getElementById('modalFlipBtn');
+    const page     = document.getElementById('noteModalPage');
+    let currentNote     = null;
+    let showingFullText = false;
+
+    function renderSummary(note) {
+        document.getElementById('modalSubject').textContent = note.subject;
+        document.getElementById('modalTitle').textContent   = note.title;
+        document.getElementById('modalBody').innerHTML      = note.body;
+        document.getElementById('modalMeta').textContent    = note.meta;
+        const photoWrap = document.getElementById('modalPhotoWrap');
+        if (note.photo) {
+            document.getElementById('modalPhoto').src = note.photo;
+            photoWrap.style.display = '';
+        } else {
+            photoWrap.style.display = 'none';
+        }
+        document.getElementById('modalDownloadBtn').style.display = 'none';
+        flipBtn.style.display   = note.fullText ? '' : 'none';
+        flipBtn.textContent     = 'ganzer Text →';
+        page.scrollTop = 0;
+    }
+
+    function renderFullText(note) {
+        document.getElementById('modalSubject').textContent = note.subject;
+        document.getElementById('modalTitle').textContent   = note.title;
+        document.getElementById('modalBody').innerHTML      = note.fullText;
+        document.getElementById('modalMeta').textContent    = note.meta;
+        document.getElementById('modalPhotoWrap').style.display = 'none';
+        const dlBtn = document.getElementById('modalDownloadBtn');
+        dlBtn.style.display = note.downloadable ? '' : 'none';
+        dlBtn.onclick = () => downloadRecipePDF(note.title);
+        flipBtn.style.display = '';
+        flipBtn.textContent   = '← Zusammenfassung';
+        page.scrollTop = 0;
+    }
+
+    function flipPage() {
+        const dir = showingFullText ? 1 : -1; // forward = left, back = right
+        page.style.transition = 'transform 0.15s ease, opacity 0.15s ease';
+        page.style.transform  = `translateX(${dir * 28}px)`;
+        page.style.opacity    = '0';
+        setTimeout(() => {
+            showingFullText = !showingFullText;
+            showingFullText ? renderFullText(currentNote) : renderSummary(currentNote);
+            page.style.transition = 'none';
+            page.style.transform  = `translateX(${-dir * 28}px)`;
+            page.style.opacity    = '0';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                page.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+                page.style.transform  = 'translateX(0)';
+                page.style.opacity    = '1';
+            }));
+        }, 150);
+    }
+
+    entries.forEach(card => {
+        card.addEventListener('click', () => {
+            const note = noteData[card.dataset.note];
+            if (!note) return;
+            currentNote     = note;
+            showingFullText = false;
+            renderSummary(note);
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    flipBtn.addEventListener('click', flipPage);
+
+    function closeModal() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        page.style.transform = '';
+        page.style.opacity   = '';
+        showingFullText = false;
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // PDF download
+    async function downloadRecipePDF(title) {
+        const page = document.getElementById('noteModalPage');
+        const dlBtn = document.getElementById('modalDownloadBtn');
+        const closeBtn = document.getElementById('noteClose');
+
+        // Expand to full height for capture
+        const prevMaxHeight = page.style.maxHeight;
+        const prevOverflow  = page.style.overflow;
+        page.style.maxHeight = 'none';
+        page.style.overflow  = 'visible';
+        dlBtn.style.visibility   = 'hidden';
+        closeBtn.style.visibility = 'hidden';
+
+        try {
+            const canvas = await html2canvas(page, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#fefdf8'
+            });
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.93);
+            const { jsPDF } = window.jspdf;
+
+            const pxToMm = 0.264583;
+            const pdfW = canvas.width  * pxToMm / 2;
+            const pdfH = canvas.height * pxToMm / 2;
+
+            const pdf = new jsPDF({ unit: 'mm', format: [pdfW, pdfH] });
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+            pdf.save(title.replace(/\s+/g, '_') + '.pdf');
+        } finally {
+            page.style.maxHeight  = prevMaxHeight;
+            page.style.overflow   = prevOverflow;
+            dlBtn.style.visibility   = '';
+            closeBtn.style.visibility = '';
+        }
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="javaScript.js"></script>
 </body>
 </html>

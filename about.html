@@ -2,9 +2,208 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lifestyle – PrettilyCurious</title>
+    <title>About – PrettilyCurious</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* ── Hero ── */
+        .about-hero {
+            padding: 80px 20px 20px;
+            max-width: 860px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Polaroid-style photo */
+        .about-photo-card {
+            background: white;
+            padding: 10px 10px 42px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+            transform: rotate(-1.4deg);
+            position: relative;
+        }
+        .about-photo-card img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            height: 340px;
+        }
+        .about-photo-caption {
+            font-family: 'Caveat', cursive;
+            font-size: 16px;
+            text-align: center;
+            padding-top: 10px;
+            opacity: 0.5;
+            display: block;
+        }
+
+        /* Intro text */
+        .about-intro h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        .about-intro p {
+            font-size: 15.5px;
+            line-height: 1.85;
+            opacity: 0.78;
+            margin-bottom: 12px;
+        }
+
+        /* Tags */
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+        .about-tag {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            font-family: 'Caveat', cursive;
+            font-size: 15px;
+        }
+        .about-tag:nth-child(1) { background: rgba(255,235,200,0.9); }
+        .about-tag:nth-child(2) { background: rgba(230,245,235,0.9); }
+        .about-tag:nth-child(3) { background: rgba(220,235,255,0.9); }
+        .about-tag:nth-child(4) { background: rgba(240,235,255,0.9); }
+        .about-tag:nth-child(5) { background: rgba(255,230,240,0.9); }
+
+        /* ── Chapter break (matching lifestyle) ── */
+        .chapter-break {
+            text-align: center;
+            padding: 56px 0 36px;
+        }
+        .chapter-break::before,
+        .chapter-break::after {
+            content: '';
+            display: inline-block;
+            width: 50px; height: 1px;
+            background: rgba(0,0,0,0.13);
+            vertical-align: middle;
+            margin: 0 16px;
+        }
+        .chapter-break span {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            opacity: 0.42;
+            color: #1a1a1a;
+        }
+
+        /* ── Quote ── */
+        .about-quote {
+            text-align: center;
+            padding: 20px 20px 10px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .about-quote blockquote {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            line-height: 1.75;
+            opacity: 0.55;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        /* ── My Worlds ── */
+        .about-worlds {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+        }
+        .worlds-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .world-tile {
+            padding: 26px 22px;
+            border-radius: 22px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+            transition: transform 0.25s ease;
+        }
+        .world-tile:hover { transform: rotate(0deg) translateY(-4px) !important; }
+
+        .world-tile:nth-child(1) { background: rgba(255,235,200,0.7);  transform: rotate(-0.6deg); }
+        .world-tile:nth-child(2) { background: rgba(230,245,235,0.7);  transform: rotate(0.4deg); }
+        .world-tile:nth-child(3) { background: rgba(220,235,255,0.7);  transform: rotate(-0.8deg); }
+        .world-tile:nth-child(4) { background: rgba(240,235,255,0.7);  transform: rotate(0.5deg); }
+        .world-tile:nth-child(5) { background: rgba(255,230,240,0.7);  transform: rotate(-0.4deg); }
+        .world-tile:nth-child(6) { background: rgba(255,248,215,0.75); transform: rotate(0.7deg); }
+
+        .world-emoji { font-size: 24px; display: block; margin-bottom: 10px; }
+        .world-tile h4 {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1a1a1a;
+        }
+        .world-tile p { font-size: 13px; line-height: 1.55; opacity: 0.65; }
+
+        /* ── Right now ── */
+        .about-currently {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 20px 30px;
+        }
+        .sticky-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .sticky {
+            padding: 22px 20px 24px;
+            border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.09), 3px 3px 0 rgba(0,0,0,0.04);
+            transition: transform 0.25s ease;
+        }
+        .sticky:hover { transform: rotate(0deg) scale(1.04) !important; }
+        .sticky:nth-child(1) { background: rgba(255,235,200,0.9);  transform: rotate(-1.5deg); }
+        .sticky:nth-child(2) { background: rgba(220,235,255,0.88); transform: rotate(0.9deg); }
+        .sticky:nth-child(3) { background: rgba(255,230,240,0.88); transform: rotate(-0.7deg); }
+        .sticky:nth-child(4) { background: rgba(230,245,235,0.88); transform: rotate(1.3deg); }
+
+        .sticky-label {
+            font-size: 11px;
+            opacity: 0.45;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .sticky-value {
+            font-family: 'Caveat', cursive;
+            font-size: 18px;
+            line-height: 1.4;
+            color: #1a1a1a;
+        }
+
+        /* ── Closing ── */
+        .about-closing {
+            padding: 40px 20px 110px;
+            text-align: center;
+        }
+        .about-closing p {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            opacity: 0.48;
+            line-height: 1.8;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -12,16 +211,13 @@
 <header class="site-header">
     <div class="social-links">
         <a href="https://instagram.com/prettilycurious" target="_blank" aria-label="Instagram">
-            <!-- Instagram Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <circle cx="12" cy="12" r="4"></circle>
                 <circle cx="17.5" cy="6.5" r="1"></circle>
             </svg>
         </a>
-
         <a href="https://pinterest.com/prettilycurious" target="_blank" aria-label="Pinterest">
-            <!-- Pinterest Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2C6.9 2 3 5.4 3 9.9c0 3.3 1.9 5.2 3.1 5.2.5 0 .8-1.4.8-1.8
       0-.5-1.3-1.6-1.3-3.7 0-4.3 3.3-7.4 7.7-7.4
@@ -40,83 +236,122 @@
         </a>
     </div>
     <div class="page-width">
-
         <h1 class="logo">PrettilyCurious</h1>
         <p class="tagline">learning, living & growing — softly.</p>
-
         <nav class="nav">
             <a href="index.html">HOME</a>
-            <a href="learning.html">LEARNING</a>
             <a href="lifestyle.html">LIFESTYLE</a>
+            <a href="learning.html">LEARNING</a>
             <a href="about.html">ABOUT</a>
-            <a href="dashboard.html">SHOP</a>
+            <a href="dashboard.html">FREEBIES</a>
         </nav>
-
     </div>
 </header>
-<section class="about-hero">
-    <div class="page-width about-hero-grid">
 
-        <div class="about-hero-text">
-            <h1>Hi, I’m Anna ✨</h1>
-            <p>
-                I’m learning to live a little softer.<br>
-                This space is where I collect thoughts,
-                skills, seasons & small joys.
-            </p>
-        </div>
-
-        <div class="about-hero-image">
-            <img src="assets/images/sunset in a cup.png" alt="Sunset moment">
-        </div>
-
+<!-- HERO -->
+<div class="about-hero">
+    <div class="about-photo-card">
+        <img src="assets/images/Heart_selfie.jpeg" alt="Anna">
+        <span class="about-photo-caption">that's me 🤍</span>
     </div>
-</section>
-
-<section class="about-story">
-    <div class="page-width">
-
-        <p class="about-story-text">
-            I’m curious by nature.<br>
-            I like learning things slowly,
-            doing them imperfectly
+    <div class="about-intro">
+        <h1>Hi, I'm Anna ✨</h1>
+        <p>
+            I'm curious by nature — I like learning things slowly,
+            doing them imperfectly,
             and letting life change me along the way.
         </p>
-
-    </div>
-</section>
-
-<section class="about-worlds">
-    <div class="page-width about-worlds-grid">
-
-        <div class="world-card">
-            <img src="assets/images/Riding-winter2.0.jpg" alt="">
-            <span>🐎 learning trust</span>
-        </div>
-
-        <div class="world-card">
-            <img src="assets/images/Walhai.png" alt="">
-            <span>🌊 staying curious</span>
-        </div>
-
-        <div class="world-card">
-            <img src="assets/images/Heart_selfie.jpeg" alt="">
-            <span>🤍 being human</span>
-        </div>
-
-    </div>
-</section>
-
-<section class="about-why">
-    <div class="page-width">
         <p>
-            This isn’t a place to have it all figured out.<br>
-            It’s a place to notice what I’m learning —
-            and to grow gently.
+            This is my little corner of the internet —
+            somewhere between a journal, a sketchbook, and a study note.
         </p>
+        <div class="about-tags">
+            <span class="about-tag">🐎 horse rider</span>
+            <span class="about-tag">📚 slow reader</span>
+            <span class="about-tag">💻 learning to code</span>
+            <span class="about-tag">🎿 skier</span>
+            <span class="about-tag">🌱 growing softly</span>
+        </div>
     </div>
-</section>
+</div>
 
+<!-- QUOTE -->
+<div class="about-quote">
+    <blockquote>
+        "This isn't a place to have it all figured out.<br>
+        It's a place to notice what I'm learning —<br>
+        and to grow gently."
+    </blockquote>
+</div>
 
+<!-- MY WORLDS -->
+<div class="chapter-break"><span>my worlds</span></div>
+<div class="about-worlds">
+    <div class="worlds-grid">
+        <div class="world-tile">
+            <span class="world-emoji">🐎</span>
+            <h4>Horse Riding</h4>
+            <p>Learning that trust and balance go hand in hand. Riding teaches me patience I didn't know I had.</p>
+        </div>
+        <div class="world-tile">
+            <span class="world-emoji">📚</span>
+            <h4>Books & Stories</h4>
+            <p>I read slowly. I underline things. Books change how I see the world without me noticing.</p>
+        </div>
+        <div class="world-tile">
+            <span class="world-emoji">💻</span>
+            <h4>IT & Code</h4>
+            <p>Building this website is my first real project. I learn by breaking things and slowly fixing them.</p>
+        </div>
+        <div class="world-tile">
+            <span class="world-emoji">🎿</span>
+            <h4>Skiing</h4>
+            <p>Snow, speed, and that quiet moment at the top of a mountain before you push off.</p>
+        </div>
+        <div class="world-tile">
+            <span class="world-emoji">🧶</span>
+            <h4>Making Things</h4>
+            <p>Anything handmade feels like a small act of care. I'm always in the middle of something.</p>
+        </div>
+        <div class="world-tile">
+            <span class="world-emoji">🌱</span>
+            <h4>Life Lessons</h4>
+            <p>The small ones. The kind that only reveal themselves after the fact.</p>
+        </div>
+    </div>
+</div>
+
+<!-- RIGHT NOW -->
+<div class="chapter-break"><span>right now</span></div>
+<div class="about-currently">
+    <div class="sticky-grid">
+        <div class="sticky">
+            <div class="sticky-label">Reading</div>
+            <div class="sticky-value">Der Besuch der alten Dame 📖</div>
+        </div>
+        <div class="sticky">
+            <div class="sticky-label">Learning</div>
+            <div class="sticky-value">HTML, CSS & a little JS 💻</div>
+        </div>
+        <div class="sticky">
+            <div class="sticky-label">Listening to</div>
+            <div class="sticky-value">cozy playlists & podcasts 🎵</div>
+        </div>
+        <div class="sticky">
+            <div class="sticky-label">Working on</div>
+            <div class="sticky-value">being more patient with myself 🌿</div>
+        </div>
+    </div>
+</div>
+
+<!-- CLOSING -->
+<div class="about-closing">
+    <p>
+        I'm learning to live a little softer.<br>
+        Glad you're here.
+    </p>
+</div>
+
+<script src="javaScript.js"></script>
 </body>
 </html>

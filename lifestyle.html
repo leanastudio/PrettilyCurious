@@ -5,6 +5,374 @@
     <title>Lifestyle – PrettilyCurious</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* ── Lifestyle hero ── */
+        .lifestyle-hero {
+            padding: 60px 20px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255,225,230,0.35), rgba(246,242,241,0));
+            border-radius: 0 0 80px 80px;
+        }
+        .lifestyle-title {
+            font-family: 'Caveat', cursive;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .lifestyle-subtitle {
+            font-size: 15px;
+            opacity: 0.5;
+            font-style: italic;
+        }
+
+        /* ── Season filter ── */
+        .season-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            padding: 40px 20px 20px;
+        }
+        .season-chip {
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.04em;
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.07);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            color: #111;
+        }
+        .season-chip:hover { transform: translateY(-3px); box-shadow: 0 16px 30px rgba(0,0,0,0.11); }
+        .season-chip.active { background: rgba(230,180,190,0.4) !important; }
+        .season-chip.winter { background: rgba(220,235,255,0.9); }
+        .season-chip.summer { background: rgba(255,245,180,0.9); }
+        .season-chip.autumn { background: rgba(255,220,175,0.9); }
+        .season-chip.spring { background: rgba(215,245,220,0.9); }
+
+        /* ── Date sort bar ── */
+        .date-sort-bar {
+            text-align: center;
+            padding: 10px 20px 30px;
+        }
+        .sort-chip {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-family: 'Caveat', cursive;
+            font-size: 15px;
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            cursor: pointer;
+            color: #111;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            border: 1px dashed rgba(0,0,0,0.1);
+        }
+        .sort-chip:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,0.09); }
+        .sort-chip.active { background: rgba(220,235,255,0.7); border-style: solid; }
+
+        /* ── Photo book ── */
+        .photo-book {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+        }
+
+        /* ── Sorted flat view ── */
+        #sortedView {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            align-items: start;
+        }
+        #sortedView .photo-item { margin-top: 0 !important; }
+
+        /* ── Chapter section ── */
+        .chapter-section { margin-bottom: 20px; }
+
+        .chapter-break {
+            text-align: center;
+            padding: 48px 0 36px;
+        }
+        .chapter-break::before,
+        .chapter-break::after {
+            content: '';
+            display: inline-block;
+            width: 50px; height: 1px;
+            background: rgba(0,0,0,0.13);
+            vertical-align: middle;
+            margin: 0 16px;
+        }
+        .chapter-break span {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            opacity: 0.42;
+            color: #1a1a1a;
+        }
+
+        /* ── Grids ── */
+        .photo-duo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            align-items: end;
+            margin-bottom: 26px;
+        }
+        .photo-trio {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: end;
+            margin-bottom: 26px;
+        }
+        .photo-solo {
+            max-width: 360px;
+            margin: 0 auto 26px;
+        }
+
+        .photo-item.hidden { display: none; }
+        .mt1 { margin-top: 18px; }
+        .mt2 { margin-top: 36px; }
+
+        /* ── Polaroid card ── */
+        .photo-card {
+            background: white;
+            padding: 10px 10px 38px;
+            box-shadow: 0 6px 22px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
+        }
+        .photo-card img { width: 100%; display: block; object-fit: cover; }
+        .photo-caption {
+            font-family: 'Caveat', cursive;
+            font-size: 16px;
+            text-align: center;
+            padding-top: 10px;
+            opacity: 0.52;
+            color: #1a1a1a;
+            display: block;
+        }
+
+        /* ── Date stamp ── */
+        .date-stamp {
+            position: absolute;
+            bottom: 46px; right: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: rgba(240,160,50,0.9);
+            text-shadow: 0 0 5px rgba(220,120,0,0.3);
+            letter-spacing: 0.04em;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        /* Journal card hover */
+        .photo-card[data-journal] { cursor: pointer; }
+        .photo-card[data-journal]:hover {
+            transform: rotate(0deg) translateY(-6px) !important;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.14);
+            z-index: 10;
+        }
+        .card-hint {
+            position: absolute;
+            bottom: 12px; right: 14px;
+            font-size: 11px; font-style: italic;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .photo-card[data-journal]:hover .card-hint { opacity: 0.6; }
+
+        /* ── Rotations ── */
+        .rl  { transform: rotate(-1.2deg); }
+        .rr  { transform: rotate(1.0deg); }
+        .rll { transform: rotate(-2.0deg); }
+        .rrr { transform: rotate(1.8deg); }
+        .rs  { transform: rotate(-0.5deg); }
+
+        /* ── Full-width photo ── */
+        .photo-full {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            box-shadow: 0 10px 38px rgba(0,0,0,0.13);
+            margin-bottom: 26px;
+        }
+        .photo-full img { width: 100%; display: block; object-fit: cover; height: 400px; }
+        .photo-full .photo-caption {
+            position: absolute;
+            bottom: 18px; right: 20px;
+            background: rgba(255,255,255,0.82);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 1;
+        }
+        .photo-full[data-journal] { cursor: pointer; }
+        .photo-full[data-journal]:hover img { filter: brightness(0.93); transition: filter 0.3s; }
+
+        /* ── Flip card ── */
+        .flip-card {
+            cursor: pointer;
+            perspective: 900px;
+            position: relative;
+        }
+        .flip-card.flipped { transform: none !important; z-index: 10; }
+        .flip-inner {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.65s ease;
+        }
+        .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+        .flip-front, .flip-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-front {
+            background: white;
+            padding: 10px 10px 38px;
+            box-shadow: 0 6px 22px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .flip-front img { width: 100%; display: block; object-fit: cover; }
+        .flip-front .photo-caption { font-family: 'Caveat', cursive; font-size: 16px; text-align: center; padding-top: 10px; opacity: 0.52; display: block; }
+
+        .flip-back {
+            position: absolute;
+            inset: 0;
+            transform: rotateY(180deg);
+            background-color: #fefdf8;
+            background-image: repeating-linear-gradient(
+                transparent, transparent 27px,
+                rgba(170,195,178,0.16) 27px, rgba(170,195,178,0.16) 28px
+            );
+            padding: 28px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 22px rgba(0,0,0,0.11);
+        }
+        .flip-back::before {
+            content: '';
+            position: absolute;
+            left: 36px; top: 0; bottom: 0;
+            width: 1.5px;
+            background: rgba(230,180,190,0.45);
+        }
+        .back-note {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            line-height: 1.65;
+            opacity: 0.72;
+            color: #1a1a1a;
+            text-align: center;
+            padding-left: 20px;
+        }
+        .flip-hint { margin-top: 20px; font-size: 11px; opacity: 0.28; font-style: italic; }
+
+        /* ── Journal modal ── */
+        .journal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15,10,8,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .journal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .journal-page {
+            background-color: #fefdf8;
+            background-image: repeating-linear-gradient(
+                transparent, transparent 27px,
+                rgba(170,195,178,0.17) 27px, rgba(170,195,178,0.17) 28px
+            );
+            max-width: 580px; width: 100%;
+            max-height: 85vh; overflow-y: auto;
+            border-radius: 4px 22px 22px 4px;
+            padding: 44px 44px 52px 68px;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+            transform: translateY(28px);
+            transition: transform 0.35s ease;
+        }
+        .journal-overlay.open .journal-page { transform: translateY(0); }
+        .journal-page::before {
+            content: '';
+            position: absolute;
+            left: 56px; top: 0; bottom: 0;
+            width: 1.5px;
+            background: rgba(230,180,190,0.5);
+        }
+        .journal-close {
+            position: absolute; top: 14px; right: 18px;
+            background: none; border: none;
+            font-size: 22px; opacity: 0.35;
+            cursor: pointer; font-family: Georgia, serif;
+            transition: opacity 0.2s; line-height: 1;
+        }
+        .journal-close:hover { opacity: 0.75; }
+
+        .journal-photo-wrap {
+            position: relative;
+            display: inline-block;
+            transform: rotate(-1.8deg);
+            margin-bottom: 28px;
+        }
+        .journal-photo-wrap img {
+            display: block; max-height: 200px; max-width: 100%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+        }
+        .j-tape {
+            position: absolute;
+            height: 18px; border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .j-tape-tl { width: 64px; background: rgba(255,238,170,0.72); top: -7px; left: 12px; transform: rotate(-5deg); }
+        .j-tape-tr { width: 50px; background: rgba(255,238,170,0.72); top: -7px; right: 12px; transform: rotate(4deg); }
+        .j-tape-bl { width: 56px; background: rgba(215,240,255,0.7); bottom: -7px; left: 16px; transform: rotate(3deg); }
+
+        .journal-season {
+            display: block; font-size: 11px; letter-spacing: 0.1em;
+            text-transform: uppercase; opacity: 0.38; margin-bottom: 8px;
+            font-family: Georgia, serif;
+        }
+        .journal-page h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 32px; font-weight: 700;
+            line-height: 1.2; margin-bottom: 24px; color: #1a1a1a;
+        }
+        .journal-body { font-size: 14px; line-height: 2; opacity: 0.76; }
+        .journal-body ul { list-style: none; padding: 0; margin: 0 0 16px; }
+        .journal-body ul li { padding-left: 16px; position: relative; }
+        .journal-body ul li::before { content: '—'; position: absolute; left: 0; opacity: 0.38; }
+        .journal-reflection {
+            margin-top: 22px; padding: 12px 16px;
+            background: rgba(230,180,190,0.1); border-radius: 10px;
+            font-style: italic; font-size: 14px; line-height: 1.65; opacity: 0.78;
+        }
+        .journal-date-meta { display: block; margin-top: 26px; font-size: 11px; opacity: 0.28; font-style: italic; }
+
+    </style>
 </head>
 
 <body>
@@ -12,16 +380,13 @@
 <header class="site-header">
     <div class="social-links">
         <a href="https://instagram.com/prettilycurious" target="_blank" aria-label="Instagram">
-            <!-- Instagram Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <circle cx="12" cy="12" r="4"></circle>
                 <circle cx="17.5" cy="6.5" r="1"></circle>
             </svg>
         </a>
-
         <a href="https://pinterest.com/prettilycurious" target="_blank" aria-label="Pinterest">
-            <!-- Pinterest Icon -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2C6.9 2 3 5.4 3 9.9c0 3.3 1.9 5.2 3.1 5.2.5 0 .8-1.4.8-1.8
       0-.5-1.3-1.6-1.3-3.7 0-4.3 3.3-7.4 7.7-7.4
@@ -39,30 +404,465 @@
             </svg>
         </a>
     </div>
-
     <div class="page-width">
-
         <h1 class="logo">PrettilyCurious</h1>
         <p class="tagline">learning, living & growing — softly.</p>
-
         <nav class="nav">
             <a href="index.html">HOME</a>
-            <a href="learning.html">LEARNING</a>
             <a href="lifestyle.html">LIFESTYLE</a>
+            <a href="learning.html">LEARNING</a>
             <a href="about.html">ABOUT</a>
-            <a href="dashboard.html">SHOP</a>
+            <a href="dashboard.html">FREEBIES</a>
         </nav>
-
     </div>
 </header>
 
-<section class="coming-soon">
-    <div class="page-width narrow">
-        <p class="coming-text">
-            This space is slowly taking shape.
-        </p>
-    </div>
+<!-- HERO -->
+<section class="lifestyle-hero">
+    <h1 class="lifestyle-title">Lifestyle</h1>
+    <p class="lifestyle-subtitle">small moments, big feelings — collected.</p>
 </section>
 
+<!-- SEASON FILTER -->
+<div class="season-filter" id="seasonChips">
+    <a href="#" class="season-chip active" data-filter="all">✨ All</a>
+    <a href="#" class="season-chip winter" data-filter="winter">❄️ Winter</a>
+    <a href="#" class="season-chip spring" data-filter="spring">🌸 Spring</a>
+    <a href="#" class="season-chip summer" data-filter="summer">☀️ Summer</a>
+    <a href="#" class="season-chip autumn" data-filter="autumn">🍂 Autumn</a>
+</div>
+
+<!-- DATE SORT -->
+<div class="date-sort-bar">
+    <a href="#" class="sort-chip" id="sortBtn">📅 nach Datum</a>
+</div>
+
+<div class="photo-book">
+
+    <!-- ── outside & free ── -->
+    <div class="chapter-section" id="ch-outside">
+        <div class="chapter-break"><span>outside & free</span></div>
+
+        <div class="photo-duo">
+            <div class="photo-item" data-season="winter" data-date="202412">
+                <div class="photo-card rl" data-journal="riding1">
+                    <span class="date-stamp">Dec 2024</span>
+                    <img src="assets/images/Riding-winter2.0.jpg" style="height:290px" alt="">
+                    <span class="photo-caption">cold mornings & open fields 🐎</span>
+                    <span class="card-hint">Journal öffnen ↗</span>
+                </div>
+            </div>
+            <div class="photo-item mt2" data-season="summer" data-date="202408">
+                <div class="flip-card rr" data-flip="walhai">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Aug 2024</span>
+                            <img src="assets/images/Walhai.png" style="height:270px" alt="">
+                            <span class="photo-caption">whale shark dreams 🌊</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">the most magical thing<br>I've ever seen in my life 🌊</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-duo">
+            <div class="photo-item" data-season="autumn" data-date="202409">
+                <div class="photo-card rll" data-journal="wandern1">
+                    <span class="date-stamp">Sep 2024</span>
+                    <img src="assets/images/Polaroid_wandern.png" style="height:280px" alt="">
+                    <span class="photo-caption">wandern & ausatmen 🌿</span>
+                    <span class="card-hint">Journal öffnen ↗</span>
+                </div>
+            </div>
+            <div class="photo-item mt1" data-season="summer" data-date="202408">
+                <div class="flip-card rrr" data-flip="meer">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Aug 2024</span>
+                            <img src="assets/images/Meer.png" style="height:250px" alt="">
+                            <span class="photo-caption">somewhere far away</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">I could stare at this<br>forever.</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-trio">
+            <div class="photo-item" data-season="spring" data-date="202504">
+                <div class="photo-card rrr" data-journal="hiking1">
+                    <span class="date-stamp">Apr 2025</span>
+                    <img src="assets/images/placeholder_hiking.jpg" style="height:210px" alt="">
+                    <span class="photo-caption">legs tired, heart full 🌿</span>
+                    <span class="card-hint">öffnen ↗</span>
+                </div>
+            </div>
+            <div class="photo-item mt1" data-season="spring" data-date="202504">
+                <div class="photo-card rl" data-journal="nature1">
+                    <span class="date-stamp">Apr 2025</span>
+                    <img src="assets/images/placeholder_nature.jpg" style="height:210px" alt="">
+                    <span class="photo-caption">noticing things</span>
+                    <span class="card-hint">öffnen ↗</span>
+                </div>
+            </div>
+            <div class="photo-item" data-season="summer" data-date="202407">
+                <div class="flip-card rll" data-flip="summerlake">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Jul 2024</span>
+                            <img src="assets/images/placeholder_summer_lake.jpg" style="height:210px" alt="">
+                            <span class="photo-caption">summer lake ☀️</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">that one perfect<br>summer afternoon ☀️</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── cozy moments ── -->
+    <div class="chapter-section" id="ch-cozy">
+        <div class="chapter-break"><span>cozy moments</span></div>
+
+        <div class="photo-duo">
+            <div class="photo-item" data-season="autumn" data-date="202410">
+                <div class="flip-card rll" data-flip="cup">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Oct 2024</span>
+                            <img src="assets/images/sunset in a cup.png" style="height:310px" alt="">
+                            <span class="photo-caption">sunset in a cup ☕</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">still warm when<br>everything else felt cold ☕</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="photo-item mt2" data-season="winter" data-date="202411">
+                <div class="flip-card rr" data-flip="socks">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Nov 2024</span>
+                            <img src="assets/images/Cozy socks.jpg" style="height:270px" alt="">
+                            <span class="photo-caption">warmest socks in existence 🧦</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">the only acceptable<br>winter fit 🧦</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-item" data-season="autumn" data-date="202410">
+            <div class="photo-full" data-journal="indigo1">
+                <img src="assets/images/Indigo_Suppe.png" alt="">
+                <span class="photo-caption">indigo soup & quiet evenings 🍲 · Journal öffnen ↗</span>
+            </div>
+        </div>
+
+        <div class="photo-duo">
+            <div class="photo-item" data-season="winter" data-date="202501">
+                <div class="flip-card rl" data-flip="wintercozy">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Jan 2025</span>
+                            <img src="assets/images/placeholder_winter_cozy.jpg" style="height:265px" alt="">
+                            <span class="photo-caption">winter mood ❄️</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">winter mode:<br>fully activated ❄️</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="photo-item mt1" data-season="autumn" data-date="202411">
+                <div class="flip-card rrr" data-flip="pasta">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Nov 2024</span>
+                            <img src="assets/images/placeholder_pasta.jpg" style="height:285px" alt="">
+                            <span class="photo-caption">pasta & peace 🍝</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">pasta solves everything.<br>I stand by this. 🍝</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── little things ── -->
+    <div class="chapter-section" id="ch-little">
+        <div class="chapter-break"><span>little things</span></div>
+
+        <div class="photo-duo">
+            <div class="photo-item" data-season="spring" data-date="202503">
+                <div class="photo-card rll" data-journal="selfie1">
+                    <span class="date-stamp">Mar 2025</span>
+                    <img src="assets/images/Heart_selfie.jpeg" style="height:290px" alt="">
+                    <span class="photo-caption">🤍</span>
+                    <span class="card-hint">Journal öffnen ↗</span>
+                </div>
+            </div>
+            <div class="photo-item mt2" data-season="spring" data-date="202503">
+                <div class="flip-card rr" data-flip="dryshampoo">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <span class="date-stamp">Mar 2025</span>
+                            <img src="assets/images/dryshampoo.jpeg" style="height:255px" alt="">
+                            <span class="photo-caption">little rituals</span>
+                        </div>
+                        <div class="flip-back">
+                            <p class="back-note">little rituals that make<br>a tuesday feel okay</p>
+                            <span class="flip-hint">zurückdrehen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-solo">
+            <div class="photo-item" data-season="winter" data-date="202502">
+                <div class="photo-card rs" data-journal="riding2">
+                    <span class="date-stamp">Feb 2025</span>
+                    <img src="assets/images/placeholder_riding_winter.jpg" style="height:280px" alt="">
+                    <span class="photo-caption">back in the saddle</span>
+                    <span class="card-hint">Journal öffnen ↗</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- closing -->
+    <div class="photo-item">
+        <div class="photo-full">
+            <img src="assets/images/Header.png" alt="">
+            <span class="photo-caption">just a moment 🌸</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- SORTED FLAT VIEW -->
+<div id="sortedView"></div>
+
+<!-- JOURNAL MODAL -->
+<div class="journal-overlay" id="journalOverlay">
+    <div class="journal-page">
+        <button class="journal-close" id="journalClose">×</button>
+        <span class="journal-season" id="jSeason"></span>
+        <div class="journal-photo-wrap">
+            <img id="jPhoto" src="" alt="">
+            <span class="j-tape j-tape-tl"></span>
+            <span class="j-tape j-tape-tr"></span>
+            <span class="j-tape j-tape-bl"></span>
+        </div>
+        <h2 id="jTitle"></h2>
+        <div class="journal-body" id="jBody"></div>
+        <span class="journal-date-meta" id="jDate"></span>
+    </div>
+</div>
+
+<script>
+    const journalData = {
+        riding1: {
+            photo: 'assets/images/Riding-winter2.0.jpg', date: 'Dec 2024', season: '❄️ winter',
+            title: 'december at the stables',
+            items: ['cold enough to see your breath','she was restless, so was I','we figured it out eventually, like always','stayed an extra hour just because'],
+            reflection: 'some mornings the only thing that makes sense is this.'
+        },
+        indigo1: {
+            photo: 'assets/images/Indigo_Suppe.png', date: 'Oct 2024', season: '🍂 autumn',
+            title: 'indigo soup evening',
+            items: ['made it from scratch, took all afternoon','ate alone, didn\'t mind at all','watched it get dark while the soup got warm','second bowl. obviously.'],
+            reflection: 'october doing what october does.'
+        },
+        wandern1: {
+            photo: 'assets/images/Polaroid_wandern.png', date: 'Sep 2024', season: '🍂 autumn',
+            title: 'that hiking day',
+            items: ['left earlier than planned','didn\'t talk for the first hour, just walked','found a spot above the fog','stayed there longer than necessary'],
+            reflection: 'I always forget how much I need this until I\'m already there.'
+        },
+        selfie1: {
+            photo: 'assets/images/Heart_selfie.jpeg', date: 'Mar 2025', season: '🌸 spring',
+            title: 'just a tuesday',
+            items: ['nothing special happened','but something felt okay','took this almost accidentally','kept it anyway'],
+            reflection: 'sometimes the ordinary ones are the ones that stick.'
+        },
+        hiking1: {
+            photo: 'assets/images/placeholder_hiking.jpg', date: 'Apr 2025', season: '🌸 spring',
+            title: 'april hike',
+            items: ['spring, finally actually spring','the trees weren\'t fully there yet but almost','stopped talking after the first hill','worth it, completely'],
+            reflection: 'legs tired, heart full. every time.'
+        },
+        nature1: {
+            photo: 'assets/images/placeholder_nature.jpg', date: 'Apr 2025', season: '🌸 spring',
+            title: 'something green',
+            items: ['stopped mid-walk just to look at this','forgot to take photos for the first hour','noticed the light was doing something nice','easier to breathe outside, I keep forgetting'],
+            reflection: 'I forget to look up sometimes.'
+        },
+        riding2: {
+            photo: 'assets/images/placeholder_riding_winter.jpg', date: 'Feb 2025', season: '❄️ winter',
+            title: 'february ride',
+            items: ['grey sky, frozen ground','she was calmer than usual, so was I','found a rhythm eventually','left feeling like myself again'],
+            reflection: 'she always knows when I need it most.'
+        }
+    };
+
+    /* ── Shared flat-view state ── */
+    const chips    = document.querySelectorAll('#seasonChips .season-chip');
+    const sortBtn  = document.getElementById('sortBtn');
+    const photoBook = document.querySelector('.photo-book');
+    const flatView  = document.getElementById('sortedView');
+    let originalPositions = null;
+    let currentSortState  = 'none'; // 'none' | 'newest' | 'oldest'
+
+    // Save each photo-item's original parent/sibling once
+    function saveOriginal() {
+        if (originalPositions) return;
+        originalPositions = Array.from(document.querySelectorAll('.photo-item[data-date]')).map(el => ({
+            el, parent: el.parentNode, next: el.nextSibling
+        }));
+    }
+
+    // Put every photo-item back where it started
+    function restoreToOriginal() {
+        if (!originalPositions) return;
+        originalPositions.forEach(({ el, parent, next }) => {
+            next && next.parentNode === parent
+                ? parent.insertBefore(el, next)
+                : parent.appendChild(el);
+        });
+    }
+
+    // Move an array of items into the flat 2-col grid
+    function showFlatGrid(items) {
+        flatView.innerHTML = '';
+        items.forEach(item => {
+            item.classList.remove('hidden');
+            flatView.appendChild(item);
+        });
+        photoBook.style.display = 'none';
+        flatView.style.display  = 'grid';
+    }
+
+    // Restore chapter layout
+    function showChapterView() {
+        restoreToOriginal();
+        photoBook.style.display = '';
+        flatView.style.display  = 'none';
+        document.querySelectorAll('.photo-item').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.chapter-section').forEach(s => s.style.display = '');
+    }
+
+    /* ── Season filter ── */
+    chips.forEach(chip => {
+        chip.addEventListener('click', e => {
+            e.preventDefault();
+            // Reset sort button
+            currentSortState = 'none';
+            sortBtn.textContent = '📅 nach Datum';
+            sortBtn.classList.remove('active');
+
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const filter = chip.dataset.filter;
+
+            if (filter === 'all') {
+                showChapterView();
+            } else {
+                saveOriginal();
+                restoreToOriginal();
+                const matching = Array.from(document.querySelectorAll('.photo-item[data-date]'))
+                    .filter(item => item.dataset.season === filter);
+                showFlatGrid(matching);
+            }
+        });
+    });
+
+    /* ── Sort by date ── */
+    sortBtn.addEventListener('click', e => {
+        e.preventDefault();
+        // Always reset season chips to "all"
+        chips.forEach(c => c.classList.remove('active'));
+        document.querySelector('[data-filter="all"]').classList.add('active');
+
+        if (currentSortState === 'none') {
+            currentSortState = 'newest';
+            sortBtn.textContent = '📅 neueste zuerst ↑';
+            sortBtn.classList.add('active');
+            saveOriginal();
+            restoreToOriginal();
+            const items = Array.from(document.querySelectorAll('.photo-item[data-date]'))
+                .sort((a, b) => parseInt(b.dataset.date) - parseInt(a.dataset.date));
+            showFlatGrid(items);
+        } else if (currentSortState === 'newest') {
+            currentSortState = 'oldest';
+            sortBtn.textContent = '📅 älteste zuerst ↓';
+            restoreToOriginal();
+            const items = Array.from(document.querySelectorAll('.photo-item[data-date]'))
+                .sort((a, b) => parseInt(a.dataset.date) - parseInt(b.dataset.date));
+            showFlatGrid(items);
+        } else {
+            currentSortState = 'none';
+            sortBtn.textContent = '📅 nach Datum';
+            sortBtn.classList.remove('active');
+            showChapterView();
+        }
+    });
+
+    /* ── Flip cards ── */
+    document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', () => card.classList.toggle('flipped'));
+    });
+
+    /* ── Journal modal ── */
+    const overlay  = document.getElementById('journalOverlay');
+    const closeBtn = document.getElementById('journalClose');
+
+    function openJournal(id) {
+        const d = journalData[id];
+        if (!d) return;
+        document.getElementById('jPhoto').src = d.photo;
+        document.getElementById('jSeason').textContent = d.season;
+        document.getElementById('jTitle').textContent  = d.title;
+        document.getElementById('jDate').textContent   = d.date;
+        document.getElementById('jBody').innerHTML =
+            '<ul>' + d.items.map(i => `<li>${i}</li>`).join('') + '</ul>' +
+            `<p class="journal-reflection">✏️ <em>${d.reflection}</em></p>`;
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeJournal() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-journal]').forEach(el => {
+        el.addEventListener('click', () => openJournal(el.dataset.journal));
+    });
+    closeBtn.addEventListener('click', closeJournal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeJournal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeJournal(); });
+</script>
+<script src="javaScript.js"></script>
 </body>
 </html>
