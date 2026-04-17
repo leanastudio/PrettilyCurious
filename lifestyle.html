@@ -372,6 +372,29 @@
         }
         .journal-date-meta { display: block; margin-top: 26px; font-size: 11px; opacity: 0.28; font-style: italic; }
 
+        /* ── Mobile ── */
+        @media (max-width: 640px) {
+            .lifestyle-title { font-size: 52px; }
+            .photo-book { padding: 0 14px 80px; }
+            .photo-duo  { grid-template-columns: 1fr; gap: 18px; }
+            .photo-trio { grid-template-columns: 1fr; gap: 18px; }
+            .photo-duo .mt1,
+            .photo-duo .mt2 { margin-top: 0; }
+            .photo-full img { height: 220px; }
+            .photo-card img,
+            .flip-front img { max-height: 260px !important; height: auto !important; }
+            #sortedView { grid-template-columns: 1fr; padding: 0 14px 80px; }
+            .season-filter { padding: 28px 14px 16px; gap: 10px; }
+            .season-chip { padding: 10px 16px; font-size: 13px; }
+            .journal-overlay { padding: 14px; }
+            .journal-page {
+                padding: 36px 22px 44px 46px;
+                border-radius: 4px 14px 14px 4px;
+            }
+            .journal-page::before { left: 34px; }
+            .journal-photo-wrap img { max-height: 150px; }
+        }
+
     </style>
 </head>
 

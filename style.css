@@ -362,6 +362,51 @@ a {
 }
 
 
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    /* Header */
+    .site-header { padding: 44px 16px 0; }
+    .logo { font-size: 32px; }
+    .tagline { font-size: 13px; margin-bottom: 24px; }
+    .social-links { top: 14px; right: 14px; gap: 12px; }
+
+    /* Nav — horizontal scroll statt wrap */
+    .nav {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        grid-template-columns: unset;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 0.85rem 18px;
+        font-size: 0.7rem;
+    }
+
+    /* Homepage topics */
+    .topics { padding: 70px 16px; margin-top: 50px; border-radius: 40px; }
+    .topics-grid { grid-template-columns: 1fr; gap: 28px; }
+    .topic-card img { height: 220px; }
+    .topics-header { margin-bottom: 40px; }
+
+    /* Favorites */
+    .favorites { padding: 70px 16px; }
+    .favorites-header { margin-bottom: 48px; }
+
+    /* About (global grid) */
+    .about-hero { padding: 60px 16px; }
+    .about-hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-worlds-grid { grid-template-columns: 1fr; gap: 24px; }
+    .about-story { padding: 60px 16px; }
+    .about-worlds { padding: 60px 16px; }
+    .about-why { padding: 60px 16px; }
+}
+
 /*.diary-note {
   padding: 50px 0px;
   text-align: center;

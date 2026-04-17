@@ -327,6 +327,25 @@
         .note-card:nth-child(5) { transform: rotate(-0.5deg); background-color: #fffbf0; }
         .note-card:nth-child(6) { transform: rotate(0.4deg);  background-color: #fff9ee; }
 
+        /* ── Mobile ── */
+        @media (max-width: 640px) {
+            .learning-title { font-size: 40px; }
+            .learning-intro { font-size: 14px; }
+            .notes-grid { grid-template-columns: 1fr; }
+            .notes-grid-wrapper { padding: 0 14px 60px; }
+            .note-card { transform: none !important; }
+            .note-card.featured { padding: 20px 20px 22px 42px; }
+            .note-card.featured::before { left: 30px; }
+            .note-modal-page {
+                padding: 36px 22px 44px 46px;
+                border-radius: 4px 14px 14px 4px;
+            }
+            .note-modal-page::before { left: 34px; }
+            .note-modal-overlay { padding: 14px; }
+            .modal-photo-wrap img { max-height: 140px; }
+            .world-chip { padding: 10px 16px; font-size: 13px; }
+        }
+
     </style>
 </head>
 
