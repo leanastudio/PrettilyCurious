@@ -592,8 +592,8 @@
 
         <div class="photo-item" data-season="autumn" data-date="202410">
             <div class="photo-full" data-journal="indigo1">
-                <img src="assets/images/Indigo_Suppe.png" alt="">
-                <span class="photo-caption">indigo soup & quiet evenings 🍲 · Journal öffnen ↗</span>
+                <img src="assets/images/Tomaten-Kokossuppe.png" alt="">
+                <span class="photo-caption">tomato coconut soup & quiet evenings 🍲 · Journal öffnen ↗</span>
             </div>
         </div>
 
@@ -614,18 +614,11 @@
                 </div>
             </div>
             <div class="photo-item mt1" data-season="autumn" data-date="202411">
-                <div class="flip-card rrr" data-flip="pasta">
-                    <div class="flip-inner">
-                        <div class="flip-front">
-                            <span class="date-stamp">Nov 2024</span>
-                            <img src="assets/images/placeholder_pasta.jpg" style="height:285px" alt="">
-                            <span class="photo-caption">pasta & peace 🍝</span>
-                        </div>
-                        <div class="flip-back">
-                            <p class="back-note">pasta solves everything.<br>I stand by this. 🍝</p>
-                            <span class="flip-hint">zurückdrehen</span>
-                        </div>
-                    </div>
+                <div class="photo-card rrr" data-journal="pasta1">
+                    <span class="date-stamp">Nov 2024</span>
+                    <img src="assets/images/placeholder_pasta.jpg" style="height:285px" alt="">
+                    <span class="photo-caption">pasta & peace 🍝</span>
+                    <span class="card-hint">Rezept öffnen ↗</span>
                 </div>
             </div>
         </div>
@@ -712,8 +705,8 @@
             reflection: 'some mornings the only thing that makes sense is this.'
         },
         indigo1: {
-            photo: 'assets/images/Indigo_Suppe.png', date: 'Oct 2024', season: '🍂 autumn',
-            title: 'indigo soup evening',
+            photo: 'assets/images/Tomaten-Kokossuppe.png', date: 'Oct 2024', season: '🍂 autumn',
+            title: 'tomato coconut soup evening',
             items: ['made it from scratch, took all afternoon','ate alone, didn\'t mind at all','watched it get dark while the soup got warm','second bowl. obviously.'],
             reflection: 'october doing what october does.'
         },
@@ -746,6 +739,14 @@
             title: 'february ride',
             items: ['grey sky, frozen ground','she was calmer than usual, so was I','found a rhythm eventually','left feeling like myself again'],
             reflection: 'she always knows when I need it most.'
+        },
+        pasta1: {
+            photo: 'assets/images/placeholder_pasta.jpg', date: 'Nov 2024', season: '🍂 autumn',
+            title: 'cremige tomaten-mozzarella-pasta',
+            items: ['penne, cherrytomaten, frischkäse, mozzarella','die sauce wird cremig durch das nudelwasser','babyspinat kurz mitgegart','parmesan großzügig drüber'],
+            reflection: 'pasta solves everything. I stand by this. 🍝',
+            link: 'posts/tomaten-mozzarella-pasta.html',
+            linkText: 'Zum Rezept →'
         }
     };
 
@@ -867,9 +868,12 @@
         document.getElementById('jSeason').textContent = d.season;
         document.getElementById('jTitle').textContent  = d.title;
         document.getElementById('jDate').textContent   = d.date;
+        const linkHtml = d.link
+            ? `<p style="margin-top:20px;text-align:center"><a href="${d.link}" style="font-family:'Caveat',cursive;font-size:17px;opacity:0.65;color:inherit;text-decoration:underline;text-underline-offset:3px">${d.linkText}</a></p>`
+            : '';
         document.getElementById('jBody').innerHTML =
             '<ul>' + d.items.map(i => `<li>${i}</li>`).join('') + '</ul>' +
-            `<p class="journal-reflection">✏️ <em>${d.reflection}</em></p>`;
+            `<p class="journal-reflection">✏️ <em>${d.reflection}</em></p>` + linkHtml;
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
     }

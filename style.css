@@ -507,8 +507,12 @@ a {
   background: rgba(230, 245, 235, 0.9);
 }
 
-.world-chip.skiing {
-  background: rgba(235, 240, 255, 0.9);
+.world-chip.running {
+  background: rgba(255, 235, 215, 0.9);
+}
+
+.world-chip.writing {
+  background: rgba(240, 235, 255, 0.9);
 }
 
 .world-chip.making {
