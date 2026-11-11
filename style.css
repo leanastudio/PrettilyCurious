@@ -91,6 +91,9 @@ a {
 .hero-image {
     width: 100%;
     display: block;
+    max-height: 480px;
+    object-fit: cover;
+    object-position: top center;
     box-shadow: 0 30px 60px rgba(0,0,0,0.08);
 }
 
