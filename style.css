@@ -32,21 +32,28 @@ a {
 
 .site-header {
     text-align: center;
-    padding: 32px 20px 0;
+    padding: 60px 20px 0;
+}
+
+.logo {
+    font-size: 48px;
+    font-weight: 500;
+    margin-bottom: 6px;
 }
 
 .tagline {
     font-size: 12px;
     opacity: 0.45;
     letter-spacing: 0.08em;
-    margin-bottom: 16px;
+    margin-bottom: 40px;
 }
 
 /* NAV */
 .nav {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.8fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     border: 1px solid #222;
+    margin-top: 2rem;
     position: relative;
     z-index: 2;
 }
@@ -66,23 +73,11 @@ a {
     border-right: none;
 }
 
-.nav-logo {
-    font-size: 20px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.01em !important;
-    padding: 0.5rem 0 !important;
-    line-height: 1.2;
-}
-
 /* subtiler Hover */
 .nav a:hover {
     background: rgba(230, 180, 190, 0.35);
     text-decoration: underline;
     text-underline-offset: 4px;
-}
-
-.nav-logo:hover {
-    text-decoration: none !important;
 }
 
 
@@ -96,6 +91,9 @@ a {
     width: 100%;
     display: block;
     box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+    max-height: 560px;
+    object-fit: cover;
+    object-position: top center;
 }
 
 /* ================= CURRENT TOPICS ================= */
