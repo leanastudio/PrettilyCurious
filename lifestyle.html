@@ -9,7 +9,7 @@
     <style>
 
         .life-wrap {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px 140px;
         }
@@ -34,19 +34,22 @@
 
         /* ── Chapter ── */
         .chapter {
-            margin-bottom: 96px;
+            margin-bottom: 100px;
         }
         .chapter-header {
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+        }
+        .chapter-top {
             display: flex;
             align-items: baseline;
-            gap: 16px;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.07);
+            gap: 14px;
+            margin-bottom: 8px;
         }
         .chapter-name {
             font-size: 10px;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
             opacity: 0.45;
         }
@@ -55,45 +58,42 @@
             opacity: 0.22;
             letter-spacing: 0.06em;
         }
-
-        /* ── Photo grid ── */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            grid-auto-rows: 280px;
+        .chapter-note {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            font-weight: 400;
+            opacity: 0.55;
+            line-height: 1.3;
         }
 
-        .photo-grid img {
+        /* ── Masonry columns — natural photo proportions ── */
+        .photo-cols {
+            columns: 3;
+            gap: 7px;
+        }
+        .photo-cols img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+            height: auto;
             display: block;
-            transition: opacity 0.4s ease;
+            margin-bottom: 7px;
+            break-inside: avoid;
+            transition: opacity 0.35s ease;
         }
-        .photo-grid img:hover { opacity: 0.88; }
+        .photo-cols img:hover { opacity: 0.86; }
 
-        .photo-grid .wide { grid-column: span 2; }
-        .photo-grid .tall { grid-row: span 2; }
-        .photo-grid .big  { grid-column: span 2; grid-row: span 2; }
-
-        /* Moments — 4 columns, tighter rows */
-        .photo-grid.moments {
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 220px;
-        }
+        .photo-cols.four { columns: 4; }
 
         /* ── Responsive ── */
-        @media (max-width: 900px) {
-            .photo-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; }
-            .photo-grid.moments { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
-            .life-title { font-size: 52px; }
+        @media (max-width: 1000px) {
+            .photo-cols { columns: 2; }
+            .photo-cols.four { columns: 3; }
         }
-        @media (max-width: 540px) {
+        @media (max-width: 600px) {
             .life-wrap { padding: 0 14px 100px; }
-            .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; gap: 4px; }
-            .photo-grid.moments { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
+            .life-title { font-size: 52px; }
+            .photo-cols { columns: 2; gap: 4px; }
+            .photo-cols img { margin-bottom: 4px; }
+            .photo-cols.four { columns: 2; }
         }
 
     </style>
@@ -149,41 +149,47 @@
     <!-- ── SPANIEN ── -->
     <section class="chapter">
         <div class="chapter-header">
-            <span class="chapter-name">Spanien</span>
-            <span class="chapter-year">2026</span>
+            <div class="chapter-top">
+                <span class="chapter-name">Spanien</span>
+                <span class="chapter-year">2026</span>
+            </div>
+            <p class="chapter-note">Sonne, Meer und einfach sein.</p>
         </div>
-        <div class="photo-grid">
-            <img class="big" src="assets/images/Spanien/Spanien - Magdalena.jpeg" alt="">
+        <div class="photo-cols">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.35.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.43.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.51.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.01.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.24.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.37.02.jpeg" alt="">
+            <img src="assets/images/Spanien/Spanien - Magdalena.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.40.jpeg" alt="">
-            <img class="wide" src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.43.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.45.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.50.jpeg" alt="">
-            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.51.jpeg" alt="">
-            <img class="wide" src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.54.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.54.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.56.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.34.58.jpeg" alt="">
-            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.01.jpeg" alt="">
-            <img class="wide" src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.04.jpeg" alt="">
-            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.24.jpeg" alt="">
+            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.04.jpeg" alt="">
             <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.35.24 (1).jpeg" alt="">
-            <img src="assets/images/Spanien/WhatsApp Image 2026-11-12 at 00.37.02.jpeg" alt="">
         </div>
     </section>
 
     <!-- ── ZYPERN ── -->
     <section class="chapter">
         <div class="chapter-header">
-            <span class="chapter-name">Zypern</span>
-            <span class="chapter-year">2026</span>
+            <div class="chapter-top">
+                <span class="chapter-name">Zypern</span>
+                <span class="chapter-year">2026</span>
+            </div>
+            <p class="chapter-note">Das Meer und nichts sonst.</p>
         </div>
-        <div class="photo-grid">
-            <img class="tall" src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.02.jpeg" alt="">
+        <div class="photo-cols">
             <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.03.jpeg" alt="">
-            <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.03 (1).jpeg" alt="">
             <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.04.jpeg" alt="">
+            <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.05.jpeg" alt="">
+            <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.02.jpeg" alt="">
+            <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.03 (1).jpeg" alt="">
             <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.04 (1).jpeg" alt="">
-            <img class="wide" src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.05.jpeg" alt="">
             <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.05 (1).jpeg" alt="">
             <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 00.37.05 (2).jpeg" alt="">
         </div>
@@ -192,19 +198,22 @@
     <!-- ── MOMENTS ── -->
     <section class="chapter">
         <div class="chapter-header">
-            <span class="chapter-name">Moments</span>
+            <div class="chapter-top">
+                <span class="chapter-name">Momente</span>
+            </div>
+            <p class="chapter-note">Die kleinen Dinge, die ich nicht vergessen will.</p>
         </div>
-        <div class="photo-grid moments">
-            <img class="big" src="assets/images/Paragleiten 2024.jpeg" alt="">
-            <img src="assets/images/Theater.jpeg" alt="">
+        <div class="photo-cols four">
+            <img src="assets/images/Paragleiten 2024.jpeg" alt="">
             <img src="assets/images/Wien.jpeg" alt="">
-            <img class="tall" src="assets/images/Heart_selfie.jpeg" alt="">
-            <img src="assets/images/Berlin.jpeg" alt="">
-            <img src="assets/images/Caorle 2025.jpeg" alt="">
             <img src="assets/images/dryshampoo.jpeg" alt="">
-            <img src="assets/images/Kindheitsfoto.jpeg" alt="">
-            <img class="wide" src="assets/images/Walhai.png" alt="">
+            <img src="assets/images/Walhai.png" alt="">
+            <img src="assets/images/Heart_selfie.jpeg" alt="">
+            <img src="assets/images/Berlin.jpeg" alt="">
+            <img src="assets/images/Theater.jpeg" alt="">
             <img src="assets/images/Meer.png" alt="">
+            <img src="assets/images/Caorle 2025.jpeg" alt="">
+            <img src="assets/images/Kindheitsfoto.jpeg" alt="">
             <img src="assets/images/Riding-winter2.0.jpg" alt="">
             <img src="assets/images/sunset in a cup.png" alt="">
         </div>
