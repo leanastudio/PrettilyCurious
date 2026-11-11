@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Writing – PrettilyCurious</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap">
+    <style>
+
+        :root {
+            --w-green:  #2A4D38;
+            --w-border: rgba(0,0,0,0.09);
+            --w-muted:  rgba(0,0,0,0.38);
+            --font-d: 'Cormorant Garant', Georgia, serif;
+            --font-b: 'DM Sans', system-ui, sans-serif;
+        }
+
+        .writing-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+            font-family: var(--font-b);
+        }
+
+        /* ── Page header ── */
+        .writing-hero {
+            padding: 64px 0 48px;
+            border-bottom: 1px solid var(--w-border);
+            margin-bottom: 56px;
+        }
+        .writing-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--w-green);
+            margin-bottom: 18px;
+        }
+        .writing-eyebrow::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--w-green);
+            flex-shrink: 0;
+        }
+        .writing-title {
+            font-family: var(--font-d);
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+        }
+        .writing-subtitle {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--w-muted);
+            max-width: 44ch;
+        }
+
+        /* ── Individual piece ── */
+        .piece {
+            padding: 44px 0;
+            border-bottom: 1px solid var(--w-border);
+        }
+        .piece:last-child { border-bottom: none; }
+
+        .piece-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--w-muted);
+            margin-bottom: 16px;
+        }
+        .piece-meta-dot {
+            width: 3px;
+            height: 3px;
+            background: var(--w-muted);
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        .piece-title {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            text-wrap: balance;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: opacity 0.2s;
+        }
+        .piece-title:hover { opacity: 0.55; }
+
+        .piece-excerpt {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--w-muted);
+            max-width: 60ch;
+            margin-bottom: 24px;
+        }
+
+        .piece-quote {
+            border-left: 2px solid var(--w-green);
+            padding: 2px 0 2px 20px;
+            margin: 20px 0 24px;
+        }
+        .piece-quote p {
+            font-family: var(--font-d);
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1.5;
+            color: rgba(0,0,0,0.72);
+        }
+
+        .piece-read {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--w-green);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .piece-read:hover { opacity: 0.55; }
+
+        /* ── Full text (expandable) ── */
+        .piece-full {
+            display: none;
+            font-size: 15px;
+            line-height: 1.9;
+            color: rgba(0,0,0,0.72);
+            max-width: 60ch;
+        }
+        .piece-full.open { display: block; }
+        .piece-full p { margin-bottom: 18px; }
+        .piece-full p:last-child { margin-bottom: 0; }
+
+        /* ── Empty state ── */
+        .writing-soon {
+            padding: 56px 0;
+            font-family: var(--font-d);
+            font-size: 22px;
+            font-style: italic;
+            color: var(--w-muted);
+        }
+
+        @media (max-width: 600px) {
+            .writing-wrap { padding: 0 0 80px; }
+            .writing-hero { padding: 48px 0 36px; }
+        }
+
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="social-links">
+        <a href="https://instagram.com/prettilycurious" target="_blank" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+            </svg>
+        </a>
+        <a href="https://pinterest.com/prettilycurious" target="_blank" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2C6.9 2 3 5.4 3 9.9c0 3.3 1.9 5.2 3.1 5.2.5 0 .8-1.4.8-1.8
+      0-.5-1.3-1.6-1.3-3.7 0-4.3 3.3-7.4 7.7-7.4
+      3.7 0 6.4 2.1 6.4 5.9
+      0 4.4-1.9 8.1-4.8 8.1
+      -1.6 0-2.8-1.3-2.4-2.9
+      .4-1.9 1.3-4 1.3-5.4
+      0-1.2-.7-2.3-2-2.3
+      -1.6 0-2.8 1.6-2.8 3.8
+      0 1.4.5 2.3.5 2.3
+      L7.5 22h3.4l.8-5.6
+      c.5.9 1.9 1.7 3.3 1.7
+      4.4 0 7.4-4 7.4-9.4
+      C22.4 5.7 18.1 2 12 2z"/>
+            </svg>
+        </a>
+    </div>
+    <div class="page-width">
+        <h1 class="logo">PrettilyCurious</h1>
+        <p class="tagline">learning, living & growing — softly.</p>
+        <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="lifestyle.html">LIFESTYLE</a>
+            <a href="learning.html">LEARNING</a>
+            <a href="about.html">ABOUT</a>
+            <a href="writing.html">WRITING</a>
+        </nav>
+    </div>
+</header>
+
+<div class="writing-wrap">
+
+    <div class="writing-hero">
+        <div class="writing-eyebrow">PrettilyCurious</div>
+        <h1 class="writing-title">Writing</h1>
+        <p class="writing-subtitle">Gedanken, die irgendwo landen mussten. Keine Thesen — eher Fragen, die ich laut stelle.</p>
+    </div>
+
+    <!-- Piece 1 -->
+    <article class="piece" id="piece-descartes">
+        <div class="piece-meta">
+            <span>November 2026</span>
+            <span class="piece-meta-dot"></span>
+            <span>Philosophie</span>
+        </div>
+        <a href="#piece-descartes" class="piece-title" onclick="togglePiece('descartes'); return false;">
+            Bin ich, was ich denke?
+        </a>
+        <div class="piece-quote">
+            <p>„Vielleicht bin ich nicht meine Gedanken. Vielleicht bin ich diejenige, die sie beobachtet."</p>
+        </div>
+        <p class="piece-excerpt">„Ich denke, also bin ich." — Aber wenn das stimmt, was bedeutet es dann, wenn ich schlecht denke? Bin ich dann schlecht?</p>
+        <div class="piece-full" id="full-descartes">
+            <p>„Ich denke, also bin ich." — Aber wenn das stimmt, was bedeutet es dann, wenn ich schlecht denke? Bin ich dann schlecht?</p>
+            <p>Ich glaube nicht. Ein Gedanke allein macht einen Menschen nicht zu dem, was er denkt. Gedanken entstehen, manchmal bewusst, manchmal völlig unkontrolliert. Wir können etwas denken, das unseren eigenen Werten widerspricht, ohne deshalb ein schlechter Mensch zu sein.</p>
+            <p>Vielleicht müsste man Descartes' Satz deshalb weiterdenken: Ich denke, also bin ich. Aber was ich denke, definiert nicht zwangsläufig, wer ich bin. Vielmehr zeigt sich das, was in mir steckt, darin, wie ich mit meinen Gedanken umgehe.</p>
+            <p>Vielleicht bin ich also nicht meine Gedanken. Vielleicht bin ich diejenige, die sie beobachtet, hinterfragt und entscheidet, welchen sie Bedeutung gibt.</p>
+        </div>
+        <a href="#" class="piece-read" id="toggle-descartes" onclick="togglePiece('descartes'); return false;">Lesen →</a>
+    </article>
+
+    <!-- Piece 2 -->
+    <article class="piece" id="piece-imperfect">
+        <div class="piece-meta">
+            <span>April 2025</span>
+            <span class="piece-meta-dot"></span>
+            <span>Gedanken</span>
+        </div>
+        <a href="#piece-imperfect" class="piece-title" onclick="togglePiece('imperfect'); return false;">
+            On doing things imperfectly
+        </a>
+        <p class="piece-excerpt">Starting is more important than being ready. I keep re-learning this.</p>
+        <div class="piece-full" id="full-imperfect">
+            <p>The perfect moment to start doesn't exist — it's always slightly inconvenient.</p>
+            <p>A bad first draft is better than no draft. Every time. Imperfect things have texture. Perfect things feel cold.</p>
+            <p>You learn more from finishing something messy than planning something perfect. "Good enough to ship" is often actually good enough.</p>
+            <p>I keep having to re-learn this. Maybe that's the point.</p>
+        </div>
+        <a href="#" class="piece-read" id="toggle-imperfect" onclick="togglePiece('imperfect'); return false;">Lesen →</a>
+    </article>
+
+</div>
+
+<script>
+    function togglePiece(id) {
+        const full   = document.getElementById('full-' + id);
+        const toggle = document.getElementById('toggle-' + id);
+        const open   = full.classList.toggle('open');
+        toggle.textContent = open ? '← Weniger' : 'Lesen →';
+    }
+</script>
+<script src="javaScript.js"></script>
+
+</body>
+</html>
