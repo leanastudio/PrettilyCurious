@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(sed -i 's|href=\"lifestyle.html\">LIFESTYLE|href=\"lifestyle.html\">LIFE|g' index.html lifestyle.html learning.html writing.html about.html dashboard.html)",
+      "Bash(sed -i 's|href=\"../lifestyle.html\">LIFESTYLE|href=\"../lifestyle.html\">LIFE|g' posts/tomaten-mozzarella-pasta.html)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
