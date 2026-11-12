@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learning – PrettilyCurious</title>
+    <title>Notes – PrettilyCurious</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -23,31 +23,14 @@
 
         /* ── Single note card ── */
         .note-card {
-            background-color: #fefdf8;
-            background-image: repeating-linear-gradient(
-                transparent,
-                transparent 27px,
-                rgba(170, 195, 178, 0.18) 27px,
-                rgba(170, 195, 178, 0.18) 28px
-            );
-            border-radius: 4px 18px 18px 4px;
-            padding: 22px 28px 24px 54px;
+            background: white;
+            border-radius: 16px;
+            padding: 26px 28px 24px;
             position: relative;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08), 3px 3px 0 rgba(0,0,0,0.04);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
-        }
-
-        /* margin line */
-        .note-card::before {
-            content: '';
-            position: absolute;
-            left: 42px;
-            top: 0;
-            bottom: 0;
-            width: 1.5px;
-            background: rgba(230,180,190,0.5);
         }
 
         .note-card:hover {
@@ -65,10 +48,8 @@
         .note-card.featured {
             grid-column: 1 / -1;
             transform: rotate(-0.3deg);
-            padding: 28px 40px 32px 64px;
+            padding: 28px 40px 32px;
         }
-
-        .note-card.featured::before { left: 52px; }
 
         .note-subject {
             display: block;
@@ -384,7 +365,7 @@
         <nav class="nav">
             <a href="index.html">HOME</a>
             <a href="lifestyle.html">LIFE</a>
-            <a href="learning.html">LEARNING</a>
+            <a href="notes.html">NOTES</a>
             <a href="writing.html">WRITING</a>
         </nav>
     </div>
@@ -395,7 +376,7 @@
     <div class="page-width narrow">
         <section class="learning-hero">
             <div class="page-width">
-                <h1 class="learning-title">Learning</h1>
+                <h1 class="learning-title">NOTES</h1>
                 <p class="learning-intro">
                     Things that made me curious lately — books, skills, moments & small life lessons.
                 </p>
@@ -403,10 +384,6 @@
                     <a href="#" class="world-chip active" data-filter="all">✨ All</a>
                     <a href="#" class="world-chip books" data-filter="books">📚 Books</a>
                     <a href="#" class="world-chip code" data-filter="code">💻 IT & Code</a>
-                    <a href="#" class="world-chip riding" data-filter="riding" style="display:none">🐎 Horse Riding</a>
-                    <a href="#" class="world-chip running" data-filter="running">🏃‍♀️ Running</a>
-                    <a href="#" class="world-chip writing" data-filter="writing">✍️ Writing</a>
-                    <a href="#" class="world-chip making" data-filter="making">🧶 Making Things</a>
                     <a href="#" class="world-chip life" data-filter="life">🌱 Life Lessons</a>
                     <a href="#" class="world-chip recipes" data-filter="recipes">🍳 Recipes</a>
                 </div>
@@ -471,14 +448,7 @@
             <span class="note-open">Notiz öffnen ↗</span>
         </article>
 
-        <article class="note-card featured" data-category="writing" data-note="life2">
-            <span class="note-subject">✍️ Writing</span>
-            <h3>Bin ich, was ich denke?</h3>
-            <p>Ein Gedanke macht einen Menschen nicht zu dem, was er denkt. Vielleicht bin ich nicht meine Gedanken — vielleicht bin ich diejenige, die sie beobachtet.</p>
-            <span class="note-open">Notiz öffnen ↗</span>
-        </article>
-
-        <article class="note-card" data-category="life" data-note="life1">
+<article class="note-card" data-category="life" data-note="life1">
             <span class="note-subject">🌱 Life Lessons</span>
             <h3>On doing things imperfectly</h3>
             <p>Starting is more important than being ready. I keep re-learning this.</p>
@@ -524,7 +494,6 @@
         <h2 id="modalTitle"></h2>
         <div class="note-body" id="modalBody"></div>
         <span class="note-footer-meta" id="modalMeta"></span>
-        <button class="modal-download-btn" id="modalDownloadBtn" style="display:none">📥 als PDF speichern</button>
         <button class="modal-flip-btn" id="modalFlipBtn" style="display:none">ganzer Text →</button>
     </div>
 </div>
@@ -860,7 +829,7 @@
         document.getElementById('modalSubject').textContent = note.subject;
         document.getElementById('modalTitle').textContent   = note.title;
         document.getElementById('modalBody').innerHTML      = note.body;
-        document.getElementById('modalMeta').textContent    = note.meta;
+        document.getElementById('modalMeta').textContent    = note.meta || '';
         const photoWrap = document.getElementById('modalPhotoWrap');
         if (note.photo) {
             document.getElementById('modalPhoto').src = note.photo;
@@ -868,9 +837,8 @@
         } else {
             photoWrap.style.display = 'none';
         }
-        document.getElementById('modalDownloadBtn').style.display = 'none';
-        flipBtn.style.display   = note.fullText ? '' : 'none';
-        flipBtn.textContent     = 'ganzer Text →';
+        flipBtn.style.display = note.fullText ? '' : 'none';
+        flipBtn.textContent   = 'ganzer Text →';
         page.scrollTop = 0;
     }
 
@@ -878,18 +846,15 @@
         document.getElementById('modalSubject').textContent = note.subject;
         document.getElementById('modalTitle').textContent   = note.title;
         document.getElementById('modalBody').innerHTML      = note.fullText;
-        document.getElementById('modalMeta').textContent    = note.meta;
+        document.getElementById('modalMeta').textContent    = note.meta || '';
         document.getElementById('modalPhotoWrap').style.display = 'none';
-        const dlBtn = document.getElementById('modalDownloadBtn');
-        dlBtn.style.display = note.downloadable ? '' : 'none';
-        dlBtn.onclick = () => downloadRecipePDF(note.title);
         flipBtn.style.display = '';
         flipBtn.textContent   = '← Zusammenfassung';
         page.scrollTop = 0;
     }
 
     function flipPage() {
-        const dir = showingFullText ? 1 : -1; // forward = left, back = right
+        const dir = showingFullText ? 1 : -1;
         page.style.transition = 'transform 0.15s ease, opacity 0.15s ease';
         page.style.transform  = `translateX(${dir * 28}px)`;
         page.style.opacity    = '0';

@@ -5,6 +5,7 @@
     <title>PrettilyCurious</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -49,7 +50,7 @@
         <nav class="nav">
             <a href="#">HOME</a>
             <a href="lifestyle.html">LIFE</a>
-            <a href="learning.html">LEARNING</a>
+            <a href="notes.html">NOTES</a>
             <a href="writing.html">WRITING</a>
         </nav>
 
@@ -78,19 +79,21 @@
         </div>
 
         <div class="topics-grid">
-            <a href="#" class="topic-card">
-                <img src="assets/images/placeholder_riding_winter.jpg" alt="">
-                <p>Horse Riding 101</p>
+            <a href="lifestyle.html" class="topic-card">
+                <img src="assets/images/Zypern/WhatsApp Image 2026-11-12 at 01.18.21.jpeg" alt="">
+                <p>Zypern, September</p>
+            </a>
+
+            <a href="writing.html#piece-descartes" class="topic-card text-only">
+                <div class="topic-text-inner">
+                    <span class="topic-label">Neuester Text</span>
+                    <span class="topic-title">Bin ich,<br>was ich denke?</span>
+                </div>
             </a>
 
             <a href="#" class="topic-card">
-                <img src="assets/images/placeholder_pasta.jpg" alt="">
-                <p>Best Pasta Spots</p>
-            </a>
-
-            <a href="#" class="topic-card">
-                <img src="assets/images/placeholder_summer_lake.jpg" alt="">
-                <p>Summer Bucketlist</p>
+                <img src="assets/images/Paragleiten 2024.jpeg" alt="">
+                <p>Paragleiten</p>
             </a>
         </div>
 
@@ -125,8 +128,7 @@
                     <h3>Currently reading</h3>
                     <p>
                         <strong>Der Zauberer von Oz</strong><br>
-                        Ein Klassiker, der irgendwie immer<br>
-                        aktuell bleibt.
+                        „Es gibt keinen Ort wie zuhause."
                     </p>
                 </div>
 
@@ -151,39 +153,46 @@
 
             </div>
 
-            <!-- 🌊 DREAMING OF (mit Bild) -->
-            <div class="favorite-card has-image">
-
-                <div class="favorite-image">
-                    <img src="assets/images/Riding-winter2.0.jpg" alt="Winter riding">
-                </div>
+            <!-- 🎓 DREAMING OF (ohne Bild) -->
+            <div class="favorite-card">
 
                 <div class="favorite-content">
-                    <span class="icon">🌊</span>
+                    <span class="icon">🎓</span>
                     <h3>Dreaming of</h3>
                     <p>
-                        Riding in a winter wonderland<br>
-                        with my favorite people.
+                        Einem abgeschlossenen Bachelor.<br>
+                        <em>Irgendwann.</em>
                     </p>
                 </div>
 
             </div>
 
-            <!-- 🎧 LISTENING TO (ohne Bild) -->
-            <div class="favorite-card">
+            <!-- 🎧 LISTENING TO (mini player) -->
+            <div class="favorite-card listening-card">
 
                 <div class="favorite-content">
                     <span class="icon">🎧</span>
                     <h3>Listening to</h3>
-                    <p>
-                        Pocketful of Sunshine<br>
-                        <em>or</em> Hold Me Like You Used To
-                    </p>
+                    <a class="music-player" href="https://music.youtube.com/playlist?list=PLPMEV8E_Jcjc&si=m07_2GGmx9hDZYmh" target="_blank">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg>
+                        </div>
+                        <div class="player-info">
+                            <div class="player-meta">Playlist · 23 Songs</div>
+                            <div class="player-name">my current playlist</div>
+                        </div>
+                        <div class="equalizer">
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                        </div>
+                    </a>
                 </div>
 
             </div>
 
-            <!-- 🍝 COMFORT LATELY (mit Bild) -->
+            <!-- 🍝 COMFORT FOOD (mit Bild) -->
             <div class="favorite-card has-image">
 
                 <div class="favorite-image">
