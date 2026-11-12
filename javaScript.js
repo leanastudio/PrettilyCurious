@@ -1,4 +1,3 @@
-<script>
 // Dark mode
 (function() {
   const saved = localStorage.getItem('theme');
@@ -35,4 +34,3 @@ document.addEventListener("mousemove", (e) => {
     sparkle.remove();
   }, 600);
 });
-</script>

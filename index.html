@@ -211,22 +211,6 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener("mousemove", (e) => {
-      const sparkle = document.createElement("span");
-      sparkle.className = "sparkle";
-
-      sparkle.style.left = e.pageX + "px";
-      sparkle.style.top = e.pageY + "px";
-
-      document.body.appendChild(sparkle);
-
-      setTimeout(() => {
-        sparkle.remove();
-      }, 500);
-    });
-</script>
-
-
+<script src="javaScript.js"></script>
 </body>
 </html>
