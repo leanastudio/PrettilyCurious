@@ -84,6 +84,24 @@
 
         .photo-cols.four { columns: 4; }
 
+        /* ── Chapter nav ── */
+        .chapter-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            justify-content: center;
+            padding: 0 0 52px;
+        }
+        .chapter-nav a {
+            font-family: 'Caveat', cursive;
+            font-size: 18px;
+            color: var(--fg);
+            opacity: 0.5;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .chapter-nav a:hover { opacity: 1; }
+
         /* ── Dark mode ── */
         [data-theme="dark"] .chapter-header { border-bottom-color: rgba(237,233,228,0.1); }
         [data-theme="dark"] .life-title { color: #ede9e4; }
@@ -148,8 +166,15 @@
         <p class="life-subtitle">Fotos &amp; Momente</p>
     </div>
 
+    <nav class="chapter-nav">
+        <a href="#zypern">Zypern</a>
+        <a href="#spanien">Spanien</a>
+        <a href="#australien">Australien</a>
+        <a href="#momente">Momente</a>
+    </nav>
+
     <!-- ── ZYPERN ── -->
-    <section class="chapter">
+    <section class="chapter" id="zypern">
         <div class="chapter-header">
             <div class="chapter-top">
                 <span class="chapter-name">Zypern</span>
@@ -179,7 +204,7 @@
     </section>
 
     <!-- ── SPANIEN ── -->
-    <section class="chapter">
+    <section class="chapter" id="spanien">
         <div class="chapter-header">
             <div class="chapter-top">
                 <span class="chapter-name">Spanien</span>
@@ -206,7 +231,7 @@
     </section>
 
     <!-- ── MOMENTS ── -->
-    <section class="chapter">
+    <section class="chapter" id="momente">
         <div class="chapter-header">
             <div class="chapter-top">
                 <span class="chapter-name">Momente</span>
@@ -260,6 +285,16 @@
             <img src="assets/images/WhatsApp Image 2026-11-12 at 11.03.52.jpeg" alt="">
             <img src="assets/images/WhatsApp Image 2026-11-12 at 11.04.56.jpeg" alt="">
             <img src="assets/images/WhatsApp Image 2026-11-12 at 11.05.31.jpeg" alt="">
+        </div>
+    </section>
+
+    <!-- ── AUSTRALIEN ── -->
+    <section class="chapter" id="australien">
+        <div class="chapter-header">
+            <div class="chapter-top">
+                <span class="chapter-name">Australien</span>
+                <span class="chapter-year">2018 – 2019</span>
+            </div>
         </div>
     </section>
 
