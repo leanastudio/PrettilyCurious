@@ -1,16 +1,16 @@
 /* RESET */
 :root {
-   --soft-rose: rgba(230, 180, 190, 0.25);
-   --soft-rose-solid: #e6b4be;
+   --soft-rose: rgba(196,135,90,0.22);
+   --soft-rose-solid: #c4875a;
    --sage: rgba(180, 200, 185, 0.25);
 
    /* Theme tokens — light */
-   --bg:       #f6f2f1;
+   --bg:       #f5f1e8;
    --fg:       #111111;
    --border:   #222222;
    --bg-card:  rgba(255,255,255,0.85);
    --bg-chip:  rgba(255,255,255,0.85);
-   --bg-topics: rgba(230,180,190,0.25);
+   --bg-topics: rgba(196,135,90,0.18);
    --shadow:   rgba(0,0,0,0.08);
 }
 
@@ -20,9 +20,9 @@
    --border:   rgba(237,233,228,0.16);
    --bg-card:  rgba(38,34,31,0.97);
    --bg-chip:  rgba(46,42,39,0.97);
-   --bg-topics: rgba(230,180,190,0.07);
+   --bg-topics: rgba(196,135,90,0.07);
    --shadow:   rgba(0,0,0,0.28);
-   --soft-rose-solid: #d4a0aa;
+   --soft-rose-solid: #c4875a;
 }
 
 * {
@@ -97,7 +97,7 @@ a {
 
 /* subtiler Hover */
 .nav a:hover {
-    background: rgba(230, 180, 190, 0.35);
+    background: rgba(196,135,90,0.28);
     text-decoration: underline;
     text-underline-offset: 4px;
 }
@@ -445,7 +445,7 @@ a {
   position: absolute;
   width: 3px;
   height: 3px;
-  background: rgba(230, 180, 190, 0.45); /* soft rose, sehr fein */
+  background: rgba(196,135,90,0.5);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -515,7 +515,7 @@ a {
 [data-theme="dark"] .world-chip.code    { background: rgba(220,235,255,0.1); }
 [data-theme="dark"] .world-chip.life    { background: rgba(225,240,230,0.1); }
 [data-theme="dark"] .world-chip.recipes { background: rgba(255,240,200,0.1); }
-[data-theme="dark"] .world-chip.active  { background: rgba(230,180,190,0.22) !important; }
+[data-theme="dark"] .world-chip.active  { background: rgba(196,135,90,0.22) !important; }
 
 .social-links a:hover svg {
   opacity: 1;
@@ -608,7 +608,7 @@ a {
   display: block;
   width: 80px;
   height: 2px;
-  background: rgba(230, 180, 190, 0.6);
+  background: rgba(196,135,90,0.5);
   margin: 80px auto 0;
   border-radius: 2px;
 }
