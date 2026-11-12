@@ -3,7 +3,28 @@
    --soft-rose: rgba(230, 180, 190, 0.25);
    --soft-rose-solid: #e6b4be;
    --sage: rgba(180, 200, 185, 0.25);
+
+   /* Theme tokens — light */
+   --bg:       #f6f2f1;
+   --fg:       #111111;
+   --border:   #222222;
+   --bg-card:  rgba(255,255,255,0.85);
+   --bg-chip:  rgba(255,255,255,0.85);
+   --bg-topics: rgba(230,180,190,0.25);
+   --shadow:   rgba(0,0,0,0.08);
 }
+
+[data-theme="dark"] {
+   --bg:       #1a1716;
+   --fg:       #ede9e4;
+   --border:   rgba(237,233,228,0.16);
+   --bg-card:  rgba(38,34,31,0.97);
+   --bg-chip:  rgba(46,42,39,0.97);
+   --bg-topics: rgba(230,180,190,0.07);
+   --shadow:   rgba(0,0,0,0.28);
+   --soft-rose-solid: #d4a0aa;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,8 +34,9 @@
 /* GLOBAL */
 body {
     font-family: "Georgia", serif;
-    background: #f6f2f1;
-    color: #111;
+    background: var(--bg);
+    color: var(--fg);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -52,7 +74,7 @@ a {
 .nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border: 1px solid #222;
+    border: 1px solid var(--border);
     margin-top: 2rem;
     position: relative;
     z-index: 2;
@@ -64,8 +86,8 @@ a {
     text-decoration: none;
     font-size: 0.75rem;
     letter-spacing: 0.12em;
-    color: #111;
-    border-right: 1px solid #222;
+    color: var(--fg);
+    border-right: 1px solid var(--border);
     transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -99,7 +121,7 @@ a {
 /* ================= CURRENT TOPICS ================= */
 
 .topics {
-     background: var(--soft-rose);
+     background: var(--bg-topics);
         padding: 140px 20px 120px;
         margin-top: 120px;
         border-radius: 80px;
@@ -127,7 +149,7 @@ a {
 .topics-header .line {
     width: 70px;
     height: 1px;
-    background: #222;
+    background: var(--border);
 }
 
 /* TOPICS GRID */
@@ -201,14 +223,14 @@ a {
 .topics-divider {
     height: 1px;
     width: 100%;
-    background: #222;
+    background: var(--border);
     margin-top: 80px;
 }
 
 /* ================= CURRENT FAVOURITES ================= */
 
 .favorites {
-  background: #f6f2f1; /* bewusst beige */
+  background: var(--bg);
   padding: 140px 20px 120px;
 }
 
@@ -249,7 +271,7 @@ a {
 
 .favorite-card {
   position: relative;
-  background: rgba(255,255,255,0.85);
+  background: var(--bg-card);
   border-radius: 22px;
   padding: 40px 28px;
   text-align: center;
@@ -458,12 +480,42 @@ a {
 .social-links svg {
   width: 16px;
   height: 16px;
-  stroke: #111;
+  stroke: var(--fg);
   fill: none;
   stroke-width: 1.5;
   opacity: 0.6;
   transition: opacity 0.2s ease, stroke 0.2s ease;
 }
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--fg);
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, stroke 0.2s ease;
+}
+.theme-toggle:hover svg { opacity: 1; stroke: var(--soft-rose-solid); }
+.icon-sun { display: none; }
+[data-theme="dark"] .icon-moon { display: none; }
+[data-theme="dark"] .icon-sun  { display: block; }
+
+/* dark chip tints */
+[data-theme="dark"] .world-chip.books   { background: rgba(255,235,200,0.1); }
+[data-theme="dark"] .world-chip.code    { background: rgba(220,235,255,0.1); }
+[data-theme="dark"] .world-chip.life    { background: rgba(225,240,230,0.1); }
+[data-theme="dark"] .world-chip.recipes { background: rgba(255,240,200,0.1); }
+[data-theme="dark"] .world-chip.active  { background: rgba(230,180,190,0.22) !important; }
 
 .social-links a:hover svg {
   opacity: 1;
@@ -591,8 +643,8 @@ a {
   border-radius: 999px;
   font-size: 14px;
   letter-spacing: 0.04em;
-  background: rgba(255,255,255,0.85);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  background: var(--bg-chip);
+  box-shadow: 0 12px 25px var(--shadow);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
